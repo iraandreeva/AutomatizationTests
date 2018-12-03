@@ -111,12 +111,12 @@ public class TestClass {
         System.out.println("After Method");
     }
 
-    @BeforeGroups
+    @BeforeGroups(groups = "Group")
     public void beforeGroups() {
         System.out.println("Before Groups method");
     }
 
-    @AfterGroups
+    @AfterGroups(groups = "Group")
     public void afterGroups() {
         System.out.println("After Groups method");
     }
