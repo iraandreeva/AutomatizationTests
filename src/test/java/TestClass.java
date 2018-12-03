@@ -1,3 +1,8 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
@@ -5,121 +10,43 @@ import org.testng.ITestResult;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 
-@Listeners(TestClassListener.class)
+import java.io.File;
+
+//Implement an automated test using TestNG + Selenium for new account registration on http://automationpractice.com
+
+//Test scenario:
+
+// Navigate to the target automationpractice.com;
+//Open registration form;
+//Fill all fields in the form with the valid data;
+//Click 'Register';
+//Verify that new account is successfully created.
+//Additional requirements:
+
+//Target browser: Chrome
+//The test should be stable and may be executed multiple times without any false failures.
+
+
 public class TestClass {
 
-    @DataProvider(name = "Numbers")
-    public static Object[][] dataProv() {
-        return new Object[][]
-        {{1 , 4}, {6, 1}, {3, 1}};
-    }
 
-    @Test(dataProvider = "Numbers", groups = "Group")
-    public void testEquals(int n1, int n2) {
 
-        Assert.assertEquals(n1, n2);
-
-    }
-
-    @Test(dependsOnMethods="testEquals", dataProvider = "Numbers", groups = "Group")
-    public void testNotEquals(int n1, int n2) {
-
-        Assert.assertNotEquals(n1, n2);
-
-    }
-
-    @DataProvider(name = "Boolean")
-    public static Object[][] dataProvider() {
-        return new Object[][]
-                {{true}, {false}};
-    }
-
-    @Test(dataProvider = "Boolean")
-    public void testTrue(boolean n) {
-
-        Assert.assertTrue(n, "True");
-
-    }
-
-    @Test(dataProvider = "Boolean")
-    public void testFalse(boolean n) {
-
-        Assert.assertFalse(n, "False");
-
-    }
 
     @Test
-    public void testFail() {
+    public void chromeRegistration() {
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\irina.andreeva\\IdeaProjects\\Drivers\\chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
 
-        Assert.fail("Fail");
-
-    }
-
-    @Test
-    @Parameters({ "num1", "num2" })
-    public void testParametrized(int num1, int num2) {
-
-        Assert.assertEquals(num1, num2);
+        driver.get("http:\\www.automationpractice.com");
+        driver.findElement(By.linkText("Sign in")).click();
+        driver.findElement(By.id("SubmitCreate")).click();
+        //driver.quit();
 
     }
 
-    @Test(dataProvider = "Numbers")
-    public void testSoftAssert(int n1, int n2) {
 
-        SoftAssert soft = new SoftAssert();
-        soft.assertEquals(n1, n2);
 
-    }
 
-    @BeforeSuite
-    public void beforeSuite() {
-        System.out.println("Before Suite method");
-    }
-
-    @AfterSuite
-    public void afterSuite() {
-        System.out.println("After Suite method");
-    }
-
-    @BeforeTest
-    public void beforeTest() {
-        System.out.println("Before Test method");
-    }
-
-    @AfterTest
-    public void afterTest() {
-        System.out.println("After Test method");
-    }
-
-    @BeforeClass
-    public void beforeClass() {
-        System.out.println("Before Class method");
-    }
-
-    @AfterClass
-    public void afterClass() {
-        System.out.println("After Class method");
-    }
-
-    @BeforeMethod
-    public void beforeMethod() {
-        System.out.println("Before Method");
-    }
-
-    @AfterMethod
-    public void afterMethod() {
-        System.out.println("After Method");
-    }
-
-    @BeforeGroups
-    public void beforeGroups() {
-        System.out.println("Before Groups method");
-    }
-
-    @AfterGroups
-    public void afterGroups() {
-        System.out.println("After Groups method");
-    }
 
 
 
