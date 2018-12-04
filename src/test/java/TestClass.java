@@ -46,7 +46,6 @@ public class TestClass {
 
     @Test
     public void chromeRegistration() {
-        while(true) {
 
             String mail = getSaltString() + "@gmail.com";
 
@@ -108,8 +107,6 @@ public class TestClass {
             ((ChromeDriver) driver).findElementByClassName("logout").click();
             driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
-
-        }
 
     }
 
