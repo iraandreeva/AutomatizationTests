@@ -32,6 +32,17 @@ import java.util.concurrent.TimeUnit;
 
 public class TestClass {
 
+    private static WebDriver driver;
+
+    @BeforeSuite
+    public void beforeSuite() {
+
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\irina.andreeva\\IdeaProjects\\Drivers\\chromedriver.exe");
+
+        driver = new ChromeDriver();
+        driver.get("http:\\www.automationpractice.com");
+
+    }
 
     @Test
     public void chromeRegistration() {
@@ -39,11 +50,6 @@ public class TestClass {
 
             String mail = getSaltString() + "@gmail.com";
 
-
-            System.setProperty("webdriver.chrome.driver", "C:\\Users\\irina.andreeva\\IdeaProjects\\Drivers\\chromedriver.exe");
-            WebDriver driver = new ChromeDriver();
-
-            driver.get("http:\\www.automationpractice.com");
             driver.findElement(By.linkText("Sign in")).click();
 
             driver.findElement(By.id("email_create")).sendKeys(mail);
@@ -102,9 +108,15 @@ public class TestClass {
             ((ChromeDriver) driver).findElementByClassName("logout").click();
             driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
-            driver.quit();
+
         }
 
+    }
+
+    @AfterSuite
+    public void afterSuite() {
+        driver.quit();
+        System.out.print("Test passed OK");
     }
 
 
