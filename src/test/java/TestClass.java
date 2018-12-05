@@ -15,43 +15,36 @@ import java.io.File;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-//Implement an automated test using TestNG + Selenium for new account registration on http://automationpractice.com
+//Implement following for your account registration page:
 
-//Test scenario:
-
-// Navigate to the target automationpractice.com;
-//Open registration form;
-//Fill all fields in the form with the valid data;
-//Click 'Register';
-//Verify that new account is successfully created.
-//Additional requirements:
-
-//Target browser: Chrome
-//The test should be stable and may be executed multiple times without any false failures.
+//page classes containing functionality for interacting with the page
+//and verify data on it (use PageFactory pattern);
+//class for storing account data;
+//data provider to pass properly configured account to the test;
+//base test class for common actions;
+//logging (use log4j 2) ;
+//property file to store the parameters required for the test.
 
 
-public class TestClass {
+public class TestClass extends TestBase {
 
-    private static WebDriver driver;
+    public TestClass (WebDriver driver) {
 
-    @BeforeSuite
-    public void beforeSuite() {
-
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\irina.andreeva\\IdeaProjects\\Drivers\\chromedriver.exe");
-
-        driver = new ChromeDriver();
-        driver.get("http:\\www.automationpractice.com");
-
+        super(driver);
     }
+
+
+    private MailRandomizer mail = new MailRandomizer();
+
 
     @Test
     public void chromeRegistration() {
 
-            String mail = getSaltString() + "@gmail.com";
+            String email = mail.getSaltString() + "@gmail.com";
 
             driver.findElement(By.linkText("Sign in")).click();
 
-            driver.findElement(By.id("email_create")).sendKeys(mail);
+            driver.findElement(By.id("email_create")).sendKeys(email);
             driver.findElement(By.name("SubmitCreate")).click();
 
             driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
@@ -110,24 +103,8 @@ public class TestClass {
 
     }
 
-    @AfterSuite
-    public void afterSuite() {
-        driver.quit();
-        System.out.print("Test passed OK");
-    }
 
 
-    private String getSaltString() {
-        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-        StringBuilder salt = new StringBuilder();
-        Random rnd = new Random();
-        while (salt.length() < 10) { // length of the random string.
-            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
-            salt.append(SALTCHARS.charAt(index));
-        }
-        return salt.toString();
-
-    }
 
 
 
