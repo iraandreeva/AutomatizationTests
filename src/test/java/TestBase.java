@@ -60,7 +60,7 @@ public class TestBase {
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
 
-    public void checkLogin(String driver, String expectedTitle) {
-        Assert.assertEquals(driver, expectedTitle);
+    public void checkTitle(String expectedTitle) {
+        Assert.assertEquals(driver.getTitle(), expectedTitle);
     }
 }
