@@ -8,12 +8,27 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.util.Properties;
+
 import java.util.concurrent.TimeUnit;
 
 public class TestBase {
 
-    public WebDriver driver;
-    public Select select;
+    public static WebDriver driver;
+    public static Select select;
+    public static TestBase page;
+
+
+    public TestBase() {
+
+    }
+
+    //String baseURL = "http://automationpractice.com/index.php";
+    private Properties property = new Properties();
+
 
 
     public TestBase(WebDriver driver) {
@@ -21,11 +36,17 @@ public class TestBase {
     }
 
     @BeforeSuite
-    public void beforeSuite() {
+    public void beforeSuite() throws Exception {
+        String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+        String file = rootPath + "\\src\\main\\resources\\resources.properties";
+        property.load(new FileInputStream(file));
+        String baseURL = property.getProperty("source.baseURL");
+        String driverChrome = property.getProperty("source.driverChrome");
 
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\irina.andreeva\\IdeaProjects\\Drivers\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", driverChrome);
         driver = new ChromeDriver();
-        driver.getCurrentUrl();
+        page = new TestBase(driver);
+        driver.navigate().to(baseURL);
 
     }
 
@@ -34,7 +55,7 @@ public class TestBase {
     public void afterSuite() {
         driver.quit();
         driver = null;
-        System.out.print("Test passed OK");
+        System.out.print("Test finished");
     }
 
     public void click(By elementLocation) {
@@ -42,25 +63,23 @@ public class TestBase {
 
     }
 
-    public void setText(By elementLocation, String text) {
+    public static void setText(By elementLocation, String text) {
         driver.findElement(elementLocation).sendKeys(text);
     }
 
-    public String getText (By elementLocation) {
+    public static String getText (By elementLocation) {
         return driver.findElement(elementLocation).getText();
     }
 
-    public void selectText(By elementLocation, String value) {
+    public static void selectText(By elementLocation, String value) {
         select = new Select(driver.findElement(elementLocation));
         select.selectByValue(value);
 
     }
 
-    public void waitFiveSec() {
+    public static void waitFiveSec() {
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
 
-    public void checkTitle(String expectedTitle) {
-        Assert.assertEquals(driver.getTitle(), expectedTitle);
-    }
+
 }

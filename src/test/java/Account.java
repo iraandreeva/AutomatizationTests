@@ -16,7 +16,7 @@ import java.io.File;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-public class Account {
+public class Account extends TestBase{
 
     private static By LOC_SIGN_IN = By.linkText("Sign in");
     private static By LOC_EMAIL_CREATE = By.id("email_create");
@@ -50,14 +50,13 @@ public class Account {
     private String phone;
     private String pass;
 
-    public WebDriver driver;
-    public TestBase page;
 
     private MailRandomizer mail = new MailRandomizer();
 
 
 
-    String baseURL = "http://automationpractice.com/index.php";
+
+
 
     public Account() {
         text = "TextforTest";
@@ -71,52 +70,53 @@ public class Account {
         pass = "password";
     }
 
-    public void init() {
-        driver = new ChromeDriver();
-        page = new TestBase(driver);
-        driver.navigate().to(baseURL);
-    }
 
     public void fillAccount() {
 
-        page.click(LOC_SIGN_IN);
-        page.setText(LOC_EMAIL_CREATE, mail.getSaltString() + "@gmail.com");
-        page.click(LOC_SUBMIT_CREATE);
 
-        page.waitFiveSec();
-        page.click(LOC_RADIO_GENDER);
-        page.setText(LOC_FIRST_NAME, text);
-        page.setText(LOC_LAST_NAME, text);
-        page.setText(LOC_PASSWORD, pass);
+        click(LOC_SIGN_IN);
+        setText(LOC_EMAIL_CREATE, mail.getSaltString() + "@gmail.com");
+        click(LOC_SUBMIT_CREATE);
 
-        page.selectText(LOC_DAYS, day);
-        page.selectText(LOC_MONTHS, month);
-        page.selectText(LOC_YEARS, year);
+        waitFiveSec();
+        click(LOC_RADIO_GENDER);
+        setText(LOC_FIRST_NAME, text);
+        setText(LOC_LAST_NAME, text);
+        setText(LOC_PASSWORD, pass);
 
-        page.setText(LOC_COMPANY, text);
-        page.setText(LOC_ADDRESS, text);
-        page.setText(LOC_CITY, text);
+        selectText(LOC_DAYS, day);
+        selectText(LOC_MONTHS, month);
+        selectText(LOC_YEARS, year);
 
-        page.selectText(LOC_STATE, state);
-        page.setText(LOC_POSTCODE, postcode);
-        page.selectText(LOC_COUNTRY, country);
+        setText(LOC_COMPANY, text);
+        setText(LOC_ADDRESS, text);
+        setText(LOC_CITY, text);
 
-        page.setText(LOC_PHONE, phone);
-        page.setText(LOC_ALIAS, text);
+        selectText(LOC_STATE, state);
+        setText(LOC_POSTCODE, postcode);
+        selectText(LOC_COUNTRY, country);
 
-        page.waitFiveSec();
-        page.click(LOC_SUBMIT_ACCOUNT);
-        page.click(LOC_LOGOUT);
+        setText(LOC_PHONE, phone);
+        setText(LOC_ALIAS, text);
 
-        Assert.assertEquals(page.getText(LOC_LOGOUT), "My account - My Store");
+        waitFiveSec();
+        click(LOC_SUBMIT_ACCOUNT);
+        waitFiveSec();
+
+
+
     }
 
 
     public void checkCredentials(String expectedTitle) {
+        Assert.assertEquals(getText(LOC_LOGOUT), ("Sign out"));
+    }
 
+    public void checkTitle(String expectedTitle) {
+        Assert.assertEquals(driver.getTitle(), expectedTitle);
     }
 
     public void logout() {
-        page.click(LOC_LOGOUT);
+        click(LOC_LOGOUT);
     }
 }

@@ -1,3 +1,5 @@
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,33 +21,22 @@ import java.util.concurrent.TimeUnit;
 
 //page classes containing functionality for interacting with the page
 //and verify data on it (use PageFactory pattern);
-//class for storing account data;
+//OK class for storing account data;
 //OK data provider to pass properly configured account to the test;
-//base test class for common actions;
-//logging (use log4j 2) ;
+//OK base test class for common actions;
+//OK logging (use log4j 2) ;
 //property file to store the parameters required for the test.
 
 
-public class TestClass {
+public class TestClass extends TestBase{
 
-    /*public TestClass (WebDriver driver) {
+    static final Logger rootLogger = LogManager.getRootLogger();
+    static final Logger testLogger = LogManager.getLogger(TestClass.class);
 
-        super(driver);
-    }*/
-
-
-
-    private static By LOC_LOGOUT = By.className("logout");
 
     private static String EXPECTED_TITLE = "My account - My Store";
     private static String EXPECTED_SIGN = "Sign out";
 
-
-
-        public WebDriver driver;
-
-
-        private MailRandomizer mail = new MailRandomizer();
 
         @DataProvider(name = "accountDetails")
         public Object[][] accountDetails() {
@@ -58,22 +49,29 @@ public class TestClass {
     @Test(dataProvider = "accountDetails")
     public void chromeRegistration(Account account) {
 
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\irina.andreeva\\IdeaProjects\\Drivers\\chromedriver.exe");
+            if(rootLogger.isDebugEnabled()) {
+                rootLogger.debug("RootLogger");
+                testLogger.debug("TestLogger");
+            }
 
-        driver = new ChromeDriver();
-        TestBase page = new TestBase(driver);
-
-        account.init();
-        account.fillAccount();
-
-
-        page.waitFiveSec();
-        //page.checkTitle(EXPECTED_TITLE);
-        //account.checkCredentials(EXPECTED_SIGN);
-
-        //page.waitFiveSec();
-        //account.logout();
-
+            try{
+                testLogger.info("Trying to register account");
+                account.fillAccount();
+                testLogger.info("Checking if account is signed in");
+                account.checkCredentials(EXPECTED_SIGN);
+                testLogger.info("Checking if title is the same as in account");
+                account.checkTitle(EXPECTED_TITLE);
+                testLogger.info("Trying to logout");
+                account.logout();
+            }
+        catch (Throwable e) {
+            testLogger.error("Error message: " + e.getMessage());
+            testLogger.fatal("Fatal error message: " + e.getMessage());
+            testLogger.info("Test crashed");
+        }
+        finally {
+            testLogger.info("Logger finished");
+        }
 
     }
 
