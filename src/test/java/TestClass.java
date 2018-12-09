@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 //OK data provider to pass properly configured account to the test;
 //OK base test class for common actions;
 //OK logging (use log4j 2) ;
-//property file to store the parameters required for the test.
+//OK property file to store the parameters required for the test.
 
 
 public class TestClass extends TestBase{

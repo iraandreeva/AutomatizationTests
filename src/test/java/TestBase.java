@@ -36,10 +36,13 @@ public class TestBase {
     }
 
     @BeforeSuite
-    public void beforeSuite() throws Exception {
-        String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-        String file = rootPath + "\\src\\main\\resources\\resources.properties";
-        property.load(new FileInputStream(file));
+    public void beforeSuite() {
+        try {
+            FileInputStream file = new FileInputStream("src/main/resources/resources.properties");
+        property.load(file);}
+        catch (Exception e) {
+            e.printStackTrace();
+        }
         String baseURL = property.getProperty("source.baseURL");
         String driverChrome = property.getProperty("source.driverChrome");
 
