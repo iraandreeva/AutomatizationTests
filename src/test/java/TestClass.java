@@ -56,6 +56,7 @@ public class TestClass extends TestBase{
 
             try{
                 testLogger.info("Trying to register account");
+                account.init(driver);
                 account.fillAccount();
                 testLogger.info("Checking if account is signed in");
                 account.checkCredentials(EXPECTED_SIGN);
@@ -68,6 +69,7 @@ public class TestClass extends TestBase{
             testLogger.error("Error message: " + e.getMessage());
             testLogger.fatal("Fatal error message: " + e.getMessage());
             testLogger.info("Test crashed");
+            Assert.fail();
         }
         finally {
             testLogger.info("Logger finished");

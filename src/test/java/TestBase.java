@@ -1,5 +1,6 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
@@ -61,21 +62,21 @@ public class TestBase {
         System.out.print("Test finished");
     }
 
-    public void click(By elementLocation) {
-        driver.findElement(elementLocation).click();
+    /*public void click(WebElement element) {
+        element.click();
 
     }
 
-    public static void setText(By elementLocation, String text) {
-        driver.findElement(elementLocation).sendKeys(text);
+    public static void setText(WebElement element, String text) {
+        element.sendKeys(text);
     }
 
-    public static String getText (By elementLocation) {
-        return driver.findElement(elementLocation).getText();
-    }
+    public static String getText (WebElement element) {
+        return element.getText();
+    }*/
 
-    public static void selectText(By elementLocation, String value) {
-        select = new Select(driver.findElement(elementLocation));
+    public static void selectText(WebElement element, String value) {
+        select = new Select(element);
         select.selectByValue(value);
 
     }

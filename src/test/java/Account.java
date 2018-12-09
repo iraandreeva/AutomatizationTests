@@ -3,6 +3,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.ITestContext;
@@ -18,26 +20,46 @@ import java.util.concurrent.TimeUnit;
 
 public class Account extends TestBase{
 
-    private static By LOC_SIGN_IN = By.linkText("Sign in");
-    private static By LOC_EMAIL_CREATE = By.id("email_create");
-    private static By LOC_SUBMIT_CREATE = By.name("SubmitCreate");
-    private static By LOC_RADIO_GENDER = By.id("id_gender2");
-    private static By LOC_FIRST_NAME = By.id("customer_firstname");
-    private static By LOC_LAST_NAME = By.id("customer_lastname");
-    private static By LOC_PASSWORD = By.id("passwd");
-    private static By LOC_DAYS = By.id("days");
-    private static By LOC_MONTHS = By.id("months");
-    private static By LOC_YEARS = By.id("years");
-    private static By LOC_COMPANY = By.id("company");
-    private static By LOC_ADDRESS = By.id("address1");
-    private static By LOC_CITY = By.id("city");
-    private static By LOC_STATE = By.id("id_state");
-    private static By LOC_POSTCODE = By.id("postcode");
-    private static By LOC_COUNTRY = By.id("id_country");
-    private static By LOC_PHONE = By.id("phone_mobile");
-    private static By LOC_ALIAS = By.id("alias");
-    private static By LOC_SUBMIT_ACCOUNT = By.id("submitAccount");
-    private static By LOC_LOGOUT = By.className("logout");
+    @FindBy(className = "login")
+    private WebElement LOC_SIGN_IN;
+    @FindBy(id = "email_create")
+    private WebElement LOC_EMAIL_CREATE;
+    @FindBy(name = "SubmitCreate")
+    private WebElement LOC_SUBMIT_CREATE;
+    @FindBy(id = "id_gender2")
+    private WebElement LOC_RADIO_GENDER;
+    @FindBy(id = "customer_firstname")
+    private WebElement LOC_FIRST_NAME;
+    @FindBy(id = "customer_lastname")
+    private WebElement LOC_LAST_NAME;
+    @FindBy(id = "passwd")
+    private WebElement LOC_PASSWORD;
+    @FindBy(id = "days")
+    private WebElement LOC_DAYS;
+    @FindBy(id = "months")
+    private WebElement LOC_MONTHS;
+    @FindBy(id = "years")
+    private WebElement LOC_YEARS;
+    @FindBy(id = "company")
+    private WebElement LOC_COMPANY;
+    @FindBy(id = "address1")
+    private WebElement LOC_ADDRESS;
+    @FindBy(id = "city")
+    private WebElement LOC_CITY;
+    @FindBy(id = "id_state")
+    private WebElement LOC_STATE;
+    @FindBy(id = "postcode")
+    private WebElement LOC_POSTCODE;
+    @FindBy(id = "id_country")
+    private WebElement LOC_COUNTRY;
+    @FindBy(id = "phone_mobile")
+    private WebElement LOC_PHONE;
+    @FindBy(id = "alias")
+    private WebElement LOC_ALIAS;
+    @FindBy(id = "submitAccount")
+    private WebElement LOC_SUBMIT_ACCOUNT;
+    @FindBy(className = "logout")
+    private WebElement LOC_LOGOUT;
 
 
     private String text;
@@ -70,37 +92,40 @@ public class Account extends TestBase{
         pass = "password";
     }
 
+    public void init(final WebDriver driver) {
+        PageFactory.initElements(driver, this);
+    }
 
     public void fillAccount() {
 
 
-        click(LOC_SIGN_IN);
-        setText(LOC_EMAIL_CREATE, mail.getSaltString() + "@gmail.com");
-        click(LOC_SUBMIT_CREATE);
+        LOC_SIGN_IN.click();
+        LOC_EMAIL_CREATE.sendKeys(mail.getSaltString() + "@gmail.com");
+        LOC_SUBMIT_CREATE.click();
 
         waitFiveSec();
-        click(LOC_RADIO_GENDER);
-        setText(LOC_FIRST_NAME, text);
-        setText(LOC_LAST_NAME, text);
-        setText(LOC_PASSWORD, pass);
+        LOC_RADIO_GENDER.click();
+        LOC_FIRST_NAME.sendKeys(text);
+        LOC_LAST_NAME.sendKeys(text);
+        LOC_PASSWORD.sendKeys(pass);
 
         selectText(LOC_DAYS, day);
         selectText(LOC_MONTHS, month);
         selectText(LOC_YEARS, year);
 
-        setText(LOC_COMPANY, text);
-        setText(LOC_ADDRESS, text);
-        setText(LOC_CITY, text);
+        LOC_COMPANY.sendKeys(text);
+        LOC_ADDRESS.sendKeys(text);
+        LOC_CITY.sendKeys(text);
 
         selectText(LOC_STATE, state);
-        setText(LOC_POSTCODE, postcode);
+        LOC_POSTCODE.sendKeys(postcode);
         selectText(LOC_COUNTRY, country);
 
-        setText(LOC_PHONE, phone);
-        setText(LOC_ALIAS, text);
+        LOC_PHONE.sendKeys(phone);
+        LOC_ALIAS.sendKeys(text);
 
         waitFiveSec();
-        click(LOC_SUBMIT_ACCOUNT);
+        LOC_SUBMIT_ACCOUNT.click();
         waitFiveSec();
 
 
@@ -109,7 +134,7 @@ public class Account extends TestBase{
 
 
     public void checkCredentials(String expectedTitle) {
-        Assert.assertEquals(getText(LOC_LOGOUT), ("Sign out"));
+        Assert.assertEquals(LOC_LOGOUT.getText(), expectedTitle);
     }
 
     public void checkTitle(String expectedTitle) {
@@ -117,6 +142,6 @@ public class Account extends TestBase{
     }
 
     public void logout() {
-        click(LOC_LOGOUT);
+        LOC_LOGOUT.click();
     }
 }
