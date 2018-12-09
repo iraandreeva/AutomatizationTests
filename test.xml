@@ -7,13 +7,7 @@
         <classes>
             <class name="TestClass">
             <methods>
-                <include name = "testEquals"/>
-                <include name = "testNotEquals"/>
-                <include name = "testTrue"/>
-                <include name = "testFalse"/>
-                <include name = "testFail"/>
-                <include name = "testParametrized"/>
-                <include name = "testSoftAssert"/>
+                <include name = "chromeRegistration"/>
             </methods>
             </class>
         </classes>
