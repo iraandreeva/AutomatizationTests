@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class TestBase {
 
     public static WebDriver driver;
-    public static Select select;
+
     public static TestBase page;
 
 
@@ -27,10 +27,7 @@ public class TestBase {
 
     }
 
-    //String baseURL = "http://automationpractice.com/index.php";
     private Properties property = new Properties();
-
-
 
     public TestBase(WebDriver driver) {
         this.driver = driver;
@@ -38,6 +35,7 @@ public class TestBase {
 
     @BeforeSuite
     public void beforeSuite() {
+
         try {
             FileInputStream file = new FileInputStream("src/main/resources/resources.properties");
         property.load(file);}
@@ -51,9 +49,9 @@ public class TestBase {
         driver = new ChromeDriver();
         page = new TestBase(driver);
         driver.navigate().to(baseURL);
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
     }
-
 
     @AfterSuite
     public void afterSuite() {
@@ -61,29 +59,5 @@ public class TestBase {
         driver = null;
         System.out.print("Test finished");
     }
-
-    /*public void click(WebElement element) {
-        element.click();
-
-    }
-
-    public static void setText(WebElement element, String text) {
-        element.sendKeys(text);
-    }
-
-    public static String getText (WebElement element) {
-        return element.getText();
-    }*/
-
-    public static void selectText(WebElement element, String value) {
-        select = new Select(element);
-        select.selectByValue(value);
-
-    }
-
-    public static void waitFiveSec() {
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-    }
-
 
 }
