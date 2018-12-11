@@ -11,12 +11,19 @@ public class PageLogout {
 
     @FindBy(className = "logout")
     private WebElement LOC_LOGOUT;
+    @FindBy(className = "icon-user")
+    private WebElement LOC_PERS_INFO;
 
     static final Logger testLogger = LogManager.getLogger(PageRegistration.class);
 
     public PageLogout(final WebDriver driver) {
         testLogger.info("Logout");
         PageFactory.initElements(driver, this);
+    }
+
+    public void clickPersonalInformation() {
+        testLogger.info("Click to personal information");
+        LOC_PERS_INFO.click();
     }
 
     public void logout() {

@@ -1,5 +1,12 @@
 package framework;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Account{
 
     public String text;
@@ -11,17 +18,5 @@ public class Account{
     public String state;
     public String phone;
     public String pass;
-
-    public Account() {
-        text = "TextforTest";
-        day = "1";
-        month = "2";
-        year = "2018";
-        postcode = "13235";
-        country = "21";
-        state = "1";
-        phone = "123456789";
-        pass = "password";
-    }
 
 }
