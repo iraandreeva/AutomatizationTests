@@ -40,11 +40,8 @@ public class PageLogin {
     }
 
     public void signIn(String pass) {
-
-
         LOC_EMAIL.sendKeys(mail);
         LOC_PASSWORD.sendKeys(pass);
         LOC_SUBMIT_LOGIN.click();
-
     }
 }
