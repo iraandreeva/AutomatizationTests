@@ -1,5 +1,6 @@
 package framework;
 
+import lombok.Data;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -8,6 +9,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
+@Data
 public class PageRegistration {
 
 
@@ -43,6 +45,9 @@ public class PageRegistration {
     private WebElement LOC_ALIAS;
     @FindBy(id = "submitAccount")
     private WebElement LOC_SUBMIT_ACCOUNT;
+    @FindBy(id = "uniform-newsletter")
+    private WebElement LOC_NEWSLETTER;
+
     public static Select select;
 
     public static void selectText(WebElement element, String value) {
@@ -67,6 +72,8 @@ public class PageRegistration {
         selectText(LOC_DAYS, account.day);
         selectText(LOC_MONTHS, account.month);
         selectText(LOC_YEARS, account.year);
+
+        LOC_NEWSLETTER.click();
 
         LOC_COMPANY.sendKeys(account.text);
         LOC_ADDRESS.sendKeys(account.text);

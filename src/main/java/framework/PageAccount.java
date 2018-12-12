@@ -1,7 +1,5 @@
 package framework;
 
-import lombok.Data;
-import lombok.ToString;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -9,54 +7,33 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-@Data
 public class PageAccount {
 
+    @FindBy(className = "logout")
+    private WebElement LOC_LOGOUT;
+    @FindBy(className = "icon-user")
+    private WebElement LOC_PERS_INFO;
+    @FindBy(className = "icon-building")
+    private WebElement LOC_ADDRESSES;
 
-    @FindBy(id = "id_gender2")
-    private WebElement LOC_RADIO_GENDER;
-    @FindBy(id = "customer_firstname")
-    private WebElement LOC_FIRST_NAME;
-    @FindBy(id = "customer_lastname")
-    private WebElement LOC_LAST_NAME;
-    @FindBy(id = "days")
-    private WebElement LOC_DAYS;
-    @FindBy(id = "months")
-    private WebElement LOC_MONTHS;
-    @FindBy(id = "years")
-    private WebElement LOC_YEARS;
-
-    static String valueGender;
-    static String valueFirstName;
-    static String valueLastName;
-    static String valueDayB;
-    static String valueMonthB;
-    static String valueYearB;
-
+    static final Logger testLogger = LogManager.getLogger(PageRegistration.class);
 
     public PageAccount(final WebDriver driver) {
         PageFactory.initElements(driver, this);
     }
 
-    public PageAccount() {
-        valueGender = LOC_RADIO_GENDER.getAttribute("value");
-        valueFirstName = LOC_FIRST_NAME.getAttribute("value");
-        valueLastName = LOC_LAST_NAME.getAttribute("value");
-        valueDayB = LOC_DAYS.getAttribute("value");
-        valueMonthB = LOC_MONTHS.getAttribute("value");
-        valueYearB = LOC_YEARS.getAttribute("value");
+    public void clickPersonalInformation() {
+        testLogger.info("Click to personal information");
+        LOC_PERS_INFO.click();
     }
 
-    static final Logger testLogger = LogManager.getLogger(PageAccount.class);
+    public void logout() {
+        testLogger.info("Logout");
+        LOC_LOGOUT.click();
+    }
 
-
-    @Override
-    public String toString() {
-        return "Gender = " + valueGender +
-                "\nFirstName = " + valueFirstName +
-                "\nLastName = " + valueLastName +
-                "\nDay of Birth = " + valueDayB +
-                "\nMonth of Birth = " + valueMonthB +
-                "\nYear of Birth = " + valueYearB;
+    public void clickMyAddresses() {
+        testLogger.info("Click to My addresses");
+        LOC_ADDRESSES.click();
     }
 }
