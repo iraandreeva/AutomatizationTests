@@ -16,130 +16,108 @@ import java.io.IOException;
 
 import static framework.PageLogin.mail;
 
-//Implement following for your account registration page:
-
-//page classes containing functionality for interacting with the page
-//and verify data on it (use PageFactory pattern);
-//OK class for storing account data;
-//OK data provider to pass properly configured account to the test;
-//OK base test class for common actions;
-//OK logging (use log4j 2) ;
-//OK property file to store the parameters required for the test.
-
 
 public class TestClass extends TestBase {
 
     static final Logger testLogger = LogManager.getLogger(TestClass.class);
-
-
     private static String EXPECTED_TITLE = "My account - My Store";
 
-    @DataProvider(name = "accountDetails")
-    public Object[][] accountDetails() {
-        return new Object[][]{
-            {new Account()}
-        };
-    }
-
-    @Test(dataProvider = "accountDetails")
-    public void testRegistrationForm(Account account) {
-
-        PageMain main = new PageMain(driver);
-        PageRegistration regPage = new PageRegistration(driver);
-        PageLogin login = new PageLogin(driver);
-        PageAccount logout = new PageAccount(driver);
-
-        testLogger.info("Trying to register account");
-        main.clickSignIn();
-
-        login.enterNewEmail();
-
-        regPage.fillRegistrationForm(account);
-        regPage.submitAccount();
-
-        testLogger.info("Checking if title is the same as in account");
-        Assert.assertEquals(driver.getTitle(), EXPECTED_TITLE);
-
-        logout.logout();
-    }
 
     @Test
     public void testRegistrationFormJSON() throws IOException {
+
+        PageRegistration pageRegistration = new PageRegistration(driver);
+        PageAccount pageAccount = new PageAccount(driver);
+        PageLogin pageLogin = new PageLogin(driver);
+        PageMain pageMain = new PageMain(driver);
         ObjectMapper objectMapper = new ObjectMapper();
+
         Account account = objectMapper.readValue(new File("src/test/data/data.json"), Account.class);
-        PageMain main = new PageMain(driver);
-        PageRegistration regPage = new PageRegistration(driver);
-        PageLogin login = new PageLogin(driver);
-        PageAccount logout = new PageAccount(driver);
 
-        testLogger.info("Trying to register account");
-        main.clickSignIn();
+        pageMain.clickSignIn();
 
-        login.enterNewEmail();
+        pageLogin.enterNewEmail();
 
-        regPage.fillRegistrationForm(account);
-        regPage.submitAccount();
+        pageRegistration.fillRegistrationForm(account);
+        pageRegistration.submitAccount();
 
         testLogger.info("Checking if title is the same as in account");
         Assert.assertEquals(driver.getTitle(), EXPECTED_TITLE);
 
         objectMapper.writeValue(new File("src/test/data/account.json"), new LoginData(mail, account.getPass()));
 
-        logout.logout();
+        pageAccount.logout();
 
     }
 
-    @Test(dependsOnMethods = "testRegistrationFormJSON")
-    public void testEquivalenceAccountPersonalData() throws Exception {
+    @Test
+    public void testEquivalenceAccountPersonalData() {
+
         PagePersonalInfo pagePersonalInfo = new PagePersonalInfo(driver);
         PageRegistration pageRegistration = new PageRegistration(driver);
-        PageAccount logout = new PageAccount(driver);
+        PageAccount pageAccount = new PageAccount(driver);
         PageLogin pageLogin = new PageLogin(driver);
+        PageMain pageMain = new PageMain(driver);
         ObjectMapper objectMapper = new ObjectMapper();
-        //PageMain pageMain = new PageMain(driver);
-        Account account = objectMapper.readValue(new File("src/test/data/data.json"), Account.class);
 
-        //pageMain.clickSignIn();
-        testLogger.info("Try to sign in");
-        pageLogin.signIn(account.getPass());
-        testLogger.info("Click to personal info");
-        logout.clickPersonalInformation();
+        try {
+            LoginData login = objectMapper.readValue(new File("src/test/data/account.json"), LoginData.class);
+            Account acc = objectMapper.readValue(new File("src/test/data/data.json"), Account.class);
 
-        SoftAssert softAssert = new SoftAssert();
-        testLogger.info("Catching equivalence of the account data");
-        softAssert.assertEquals(pagePersonalInfo.getLOC_FIRST_NAME().getAttribute("value"), account.getText());
-        softAssert.assertEquals(pagePersonalInfo.getLOC_LAST_NAME().getAttribute("value"), account.getText());
-        softAssert.assertEquals(pagePersonalInfo.getLOC_RADIO_GENDER().getAttribute("id"), pageRegistration.getLOC_RADIO_GENDER().getAttribute("id"));
-        softAssert.assertEquals(pagePersonalInfo.getLOC_EMAIL().getAttribute("value"), mail);
-        softAssert.assertEquals(pagePersonalInfo.getLOC_NEWSLETTER().getAttribute("class"), "checked");
-        softAssert.assertAll();
+            pageMain.clickSignIn();
+            pageLogin.signIn(login.getEmail(), login.getPassword());
+            pageAccount.clickPersonalInformation();
 
+            SoftAssert softAssert = new SoftAssert();
+            testLogger.info("Catching equivalence of the account data");
+            softAssert.assertEquals(pagePersonalInfo.getLOC_FIRST_NAME().getAttribute("value"), acc.getText());
+            softAssert.assertEquals(pagePersonalInfo.getLOC_LAST_NAME().getAttribute("value"), acc.getText());
+            softAssert.assertEquals(pagePersonalInfo.getLOC_RADIO_GENDER().getAttribute("id"), pageRegistration.getLOC_RADIO_GENDER().getAttribute("id"));
+            softAssert.assertEquals(pagePersonalInfo.getLOC_EMAIL().getAttribute("value"), login.getEmail());
+            softAssert.assertEquals(pagePersonalInfo.getLOC_NEWSLETTER().getAttribute("class"), "checked");
+            softAssert.assertAll();
+        }
+        catch (Exception e) {
+            e.getStackTrace();
+        }
     }
 
     @Test(dependsOnMethods = "testRegistrationFormJSON")
-    public void testChangeAndVerifyNewPersonalInfo() throws Exception {
+    public void testChangeAndVerifyNewPersonalInfo() {
 
         PagePersonalInfo pagePersonalInfo = new PagePersonalInfo(driver);
-        PageAccount logout = new PageAccount(driver);
+        PageRegistration pageRegistration = new PageRegistration(driver);
+        PageAccount pageAccount = new PageAccount(driver);
         PageLogin pageLogin = new PageLogin(driver);
+        PageMain pageMain = new PageMain(driver);
         ObjectMapper objectMapper = new ObjectMapper();
-        Account account = objectMapper.readValue(new File("src/test/data/data.json"), Account.class);
-        PagePersonalInfo personalInfo = objectMapper.readValue(new File("src/test/data/data_for_change.json"), PagePersonalInfo.class);
 
-        testLogger.info("Try to sign in");
-        pageLogin.signIn(account.getPass());
-        testLogger.info("Click to personal info");
-        logout.clickPersonalInformation();
+        try {
+            Account account = objectMapper.readValue(new File("src/test/data/data.json"), Account.class);
+            PagePersonalInfo personalInfo = objectMapper.readValue(new File("src/test/data/data_for_change.json"), PagePersonalInfo.class);
 
-        pagePersonalInfo.enterNewPersonalInfo(account.getPass(), personalInfo);
+            testLogger.info("Try to sign in");
+            //pageLogin.signIn(account.getPass());
+            testLogger.info("Click to personal info");
+            pageAccount.clickPersonalInformation();
 
-        SoftAssert softAssert = new SoftAssert();
-        testLogger.info("Click to personal info");
-        logout.clickPersonalInformation();
-        softAssert.assertEquals(pagePersonalInfo.getLOC_FIRST_NAME().getAttribute("value"), personalInfo.getFirstName());
-        softAssert.assertEquals(pagePersonalInfo.getLOC_LAST_NAME().getAttribute("value"), personalInfo.getLastName());
-        softAssert.assertAll();
+            pagePersonalInfo.enterNewPersonalInfo(personalInfo);
+            pagePersonalInfo.changePass(personalInfo);
+            pagePersonalInfo.saveAndBack(account.getPass());
 
+            SoftAssert softAssert = new SoftAssert();
+
+            pageAccount.clickPersonalInformation();
+            softAssert.assertEquals(pagePersonalInfo.getLOC_FIRST_NAME().getAttribute("value"), personalInfo.getFirstName());
+            softAssert.assertEquals(pagePersonalInfo.getLOC_LAST_NAME().getAttribute("value"), personalInfo.getLastName());
+            softAssert.assertAll();
+
+            objectMapper.writeValue(new File("src/test/data/account.json"), new LoginData(mail, personalInfo.getPassword()));
+
+        }
+        catch (Exception e) {
+            e.getStackTrace();
+        }
 
     }
 

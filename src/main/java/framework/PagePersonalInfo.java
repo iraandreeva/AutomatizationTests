@@ -38,10 +38,15 @@ public class PagePersonalInfo {
             private WebElement LOC_SAVE;
     @FindBy(partialLinkText = "Back to your account")
     private WebElement LOC_BACK_TO_ACC;
+    @FindBy(id = "passwd")
+    private WebElement LOC_NEW_PASS;
+    @FindBy(id = "confirmation")
+    private WebElement LOC_PASS_CONFIRM;
 
 
     public String firstName;
     public String lastName;
+    public String password;
 
     public PagePersonalInfo(final WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -49,12 +54,22 @@ public class PagePersonalInfo {
 
     static final Logger testLogger = LogManager.getLogger(PagePersonalInfo.class);
 
-    public void enterNewPersonalInfo(String pass, PagePersonalInfo page) {
+    public void enterNewPersonalInfo(PagePersonalInfo page) {
         testLogger.info("Change first and last name");
         LOC_FIRST_NAME.clear();
         LOC_LAST_NAME.clear();
         LOC_FIRST_NAME.sendKeys(page.firstName);
         LOC_LAST_NAME.sendKeys(page.lastName);
+
+    }
+
+    public void changePass(PagePersonalInfo page) {
+        testLogger.info("Change password");
+        LOC_NEW_PASS.sendKeys(page.password);
+        LOC_PASS_CONFIRM.sendKeys(page.password);
+    }
+
+    public void saveAndBack(String pass) {
         testLogger.info("Save personal information");
         LOC_OLD_PASS.sendKeys(pass);
         LOC_SAVE.click();

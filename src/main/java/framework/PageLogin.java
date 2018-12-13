@@ -39,7 +39,8 @@ public class PageLogin {
         LOC_SUBMIT_CREATE.click();
     }
 
-    public void signIn(String pass) {
+    public void signIn(String mail, String pass) {
+        testLogger.info("Try to sign in");
         LOC_EMAIL.sendKeys(mail);
         LOC_PASSWORD.sendKeys(pass);
         LOC_SUBMIT_LOGIN.click();
