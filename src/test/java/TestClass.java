@@ -20,7 +20,7 @@ public class TestClass extends TestBase {
 
 
     @Test
-    public void testRegistrationFormJSON() throws IOException {
+    public void testRegisterAccount() throws IOException {
 
         PageRegistration pageRegistration = new PageRegistration(driver);
         PageAccount pageAccount = new PageAccount(driver);
@@ -73,6 +73,8 @@ public class TestClass extends TestBase {
         pageAccount.logout();
         testLogger.info("Test passed");
     }
+//контекст тест нг
+    //дата пулл
 
     //If you have changed the user data, you need to register new user.
     @Test
@@ -86,15 +88,15 @@ public class TestClass extends TestBase {
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
-            LoginData login = objectMapper.readValue(new File("src/test/data/account.json"), LoginData.class);
-            Account acc = objectMapper.readValue(new File("src/test/data/data.json"), Account.class);
+            LoginData login = objectMapper.readValue(new File("src/test/data/account.json"), LoginData.class); //в дата провайдер
+            Account acc = objectMapper.readValue(new File("src/test/data/data.json"), Account.class); //в дата провайдер
 
             pageMain.clickSignIn();
             pageLogin.signIn(login.getEmail(), login.getPassword());
             pageAccount.clickPersonalInformation();
 
             testLogger.info("Catching equivalence of the account data");
-            softAssert.assertEquals(pagePersonalInfo.getLOC_FIRST_NAME().getAttribute("value"), acc.getText());
+            softAssert.assertEquals(pagePersonalInfo.getLOC_FIRST_NAME().getAttribute("value"), acc.getText());//ассерты тоже в отдельный метод
             softAssert.assertEquals(pagePersonalInfo.getLOC_LAST_NAME().getAttribute("value"), acc.getText());
             softAssert.assertEquals(pagePersonalInfo.getLOC_RADIO_GENDER().getAttribute("id"), pageRegistration.getLOC_RADIO_GENDER().getAttribute("id"));
             softAssert.assertEquals(pagePersonalInfo.getLOC_EMAIL().getAttribute("value"), login.getEmail());
@@ -109,7 +111,7 @@ public class TestClass extends TestBase {
     }
 
     @Test
-    public void testChangeAndVerifyNewPersonalInfo() {
+    public void testEditNewPersonalInfo() {
 
         PagePersonalInfo pagePersonalInfo = new PagePersonalInfo(driver);
         PageAccount pageAccount = new PageAccount(driver);
@@ -185,7 +187,7 @@ public class TestClass extends TestBase {
     }
 
     @Test
-    public void testAddressChanging() {
+    public void testEditAddress() {
 
         PageAccount pageAccount = new PageAccount(driver);
         PageMain pageMain = new PageMain(driver);
