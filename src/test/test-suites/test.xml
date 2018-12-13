@@ -1,15 +1,17 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="TestSuite">
+    <parameter name="dataFile" value="src/test/data/data.json"/>
+
     <test name="AutoQA">
-        <parameter name="num1" value="2"/>
-        <parameter name="num2" value="2"/>
         <classes>
             <class name="TestClass">
             <methods>
                 <include name="testRegistrationFormJSON"/>
                 <include name="testEquivalenceAccountPersonalData"/>
                 <include name="testChangeAndVerifyNewPersonalInfo"/>
+                <include name="testEquivalenceAddressInformation"/>
+                <include name="testAddressChanging"/>
             </methods>
             </class>
         </classes>

@@ -12,7 +12,9 @@ import org.testng.annotations.BeforeTest;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.util.HashMap;
 import java.util.Properties;
+import org.testng.ITestContext;
 
 import java.util.concurrent.TimeUnit;
 
@@ -28,13 +30,14 @@ public class TestBase {
     }
 
     private Properties property = new Properties();
+    DataSet dataSet;
 
     public TestBase(WebDriver driver) {
         this.driver = driver;
     }
 
     @BeforeSuite
-    public void beforeSuite() {
+    public void beforeSuite(ITestContext testContext) {
 
         try {
             FileInputStream file = new FileInputStream("src/main/resources/resources.properties");
@@ -50,6 +53,10 @@ public class TestBase {
         page = new TestBase(driver);
         driver.navigate().to(baseURL);
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+
+        dataSet = new DataSet();
+        HashMap<String,String> parameters = new HashMap<>( testContext.getCurrentXmlTest().getAllParameters());
+        dataSet.processDataFile( parameters.get( "dataFile" ) );
 
     }
 

@@ -47,6 +47,33 @@ public class TestClass extends TestBase {
 
     }
 
+    @DataProvider
+    private Object[][] dataProvider(){
+        return dataSet.getData();
+    }
+
+    @Test( dataProvider = "dataProvider" )
+    public void testRegistrationFormFromDataFile(Account account) {
+
+        PageRegistration pageRegistration = new PageRegistration(driver);
+        PageAccount pageAccount = new PageAccount(driver);
+        PageLogin pageLogin = new PageLogin(driver);
+        PageMain pageMain = new PageMain(driver);
+
+        pageMain.clickSignIn();
+
+        pageLogin.enterNewEmail();
+
+        pageRegistration.fillRegistrationForm(account);
+        pageRegistration.submitAccount();
+
+        testLogger.info("Checking if title is the same as in account");
+        Assert.assertEquals(driver.getTitle(), EXPECTED_TITLE);
+
+        pageAccount.logout();
+        testLogger.info("Test passed");
+    }
+
     //If you have changed the user data, you need to register new user.
     @Test
     public void testEquivalenceAccountPersonalData() {
@@ -120,7 +147,7 @@ public class TestClass extends TestBase {
     }
 
     @Test
-    public void testAddressInformation() {
+    public void testEquivalenceAddressInformation() {
 
         PageAccount pageAccount = new PageAccount(driver);
         PageMain pageMain = new PageMain(driver);
@@ -167,7 +194,6 @@ public class TestClass extends TestBase {
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
-            Account account = objectMapper.readValue(new File("src/test/data/data.json"), Account.class);
             LoginData login = objectMapper.readValue(new File("src/test/data/account.json"), LoginData.class);
             PageAddress address = objectMapper.readValue(new File("src/test/data/address_for_change"), PageAddress.class);
 
