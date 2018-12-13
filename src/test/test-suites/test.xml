@@ -7,7 +7,9 @@
         <classes>
             <class name="TestClass">
             <methods>
-                <include name = "chromeRegistration"/>
+                <include name="testRegistrationFormJSON"/>
+                <include name="testEquivalenceAccountPersonalData"/>
+                <include name="testChangeAndVerifyNewPersonalInfo"/>
             </methods>
             </class>
         </classes>

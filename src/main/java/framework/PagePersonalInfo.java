@@ -31,11 +31,11 @@ public class PagePersonalInfo {
     @FindBy(id = "email")
     private WebElement LOC_EMAIL;
     @FindBy(className = "checked")
-            private WebElement LOC_NEWSLETTER;
+    private WebElement LOC_NEWSLETTER;
     @FindBy(id = "old_passwd")
-            private WebElement LOC_OLD_PASS;
+    private WebElement LOC_OLD_PASS;
     @FindBy(css = "button.btn.btn-default.button.button-medium")
-            private WebElement LOC_SAVE;
+    private WebElement LOC_SAVE;
     @FindBy(partialLinkText = "Back to your account")
     private WebElement LOC_BACK_TO_ACC;
     @FindBy(id = "passwd")

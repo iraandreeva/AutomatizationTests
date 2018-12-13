@@ -1,12 +1,7 @@
 import framework.*;
-import lombok.ToString;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
@@ -19,8 +14,9 @@ import static framework.PageLogin.mail;
 
 public class TestClass extends TestBase {
 
-    static final Logger testLogger = LogManager.getLogger(TestClass.class);
-    private static String EXPECTED_TITLE = "My account - My Store";
+    private final Logger testLogger = LogManager.getLogger(TestClass.class);
+    private static final String EXPECTED_TITLE = "My account - My Store";
+    SoftAssert softAssert = new SoftAssert();
 
 
     @Test
@@ -47,9 +43,11 @@ public class TestClass extends TestBase {
         objectMapper.writeValue(new File("src/test/data/account.json"), new LoginData(mail, account.getPass()));
 
         pageAccount.logout();
+        testLogger.info("Test passed");
 
     }
 
+    //If you have changed the user data, you need to register new user.
     @Test
     public void testEquivalenceAccountPersonalData() {
 
@@ -68,7 +66,6 @@ public class TestClass extends TestBase {
             pageLogin.signIn(login.getEmail(), login.getPassword());
             pageAccount.clickPersonalInformation();
 
-            SoftAssert softAssert = new SoftAssert();
             testLogger.info("Catching equivalence of the account data");
             softAssert.assertEquals(pagePersonalInfo.getLOC_FIRST_NAME().getAttribute("value"), acc.getText());
             softAssert.assertEquals(pagePersonalInfo.getLOC_LAST_NAME().getAttribute("value"), acc.getText());
@@ -76,49 +73,126 @@ public class TestClass extends TestBase {
             softAssert.assertEquals(pagePersonalInfo.getLOC_EMAIL().getAttribute("value"), login.getEmail());
             softAssert.assertEquals(pagePersonalInfo.getLOC_NEWSLETTER().getAttribute("class"), "checked");
             softAssert.assertAll();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.getStackTrace();
         }
+
+        pageAccount.logout();
+        testLogger.info("Test passed");
     }
 
-    @Test(dependsOnMethods = "testRegistrationFormJSON")
+    @Test
     public void testChangeAndVerifyNewPersonalInfo() {
 
         PagePersonalInfo pagePersonalInfo = new PagePersonalInfo(driver);
-        PageRegistration pageRegistration = new PageRegistration(driver);
         PageAccount pageAccount = new PageAccount(driver);
-        PageLogin pageLogin = new PageLogin(driver);
         PageMain pageMain = new PageMain(driver);
+        PageLogin pageLogin = new PageLogin(driver);
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
             Account account = objectMapper.readValue(new File("src/test/data/data.json"), Account.class);
             PagePersonalInfo personalInfo = objectMapper.readValue(new File("src/test/data/data_for_change.json"), PagePersonalInfo.class);
+            LoginData login = objectMapper.readValue(new File("src/test/data/account.json"), LoginData.class);
 
-            testLogger.info("Try to sign in");
-            //pageLogin.signIn(account.getPass());
-            testLogger.info("Click to personal info");
+            pageMain.clickSignIn();
+            pageLogin.signIn(login.getEmail(), login.getPassword());
             pageAccount.clickPersonalInformation();
 
+            testLogger.info("Entering new account data");
             pagePersonalInfo.enterNewPersonalInfo(personalInfo);
             pagePersonalInfo.changePass(personalInfo);
             pagePersonalInfo.saveAndBack(account.getPass());
 
-            SoftAssert softAssert = new SoftAssert();
-
             pageAccount.clickPersonalInformation();
+            testLogger.info("Catching equivalence of the account data");
             softAssert.assertEquals(pagePersonalInfo.getLOC_FIRST_NAME().getAttribute("value"), personalInfo.getFirstName());
             softAssert.assertEquals(pagePersonalInfo.getLOC_LAST_NAME().getAttribute("value"), personalInfo.getLastName());
             softAssert.assertAll();
 
-            objectMapper.writeValue(new File("src/test/data/account.json"), new LoginData(mail, personalInfo.getPassword()));
+            objectMapper.writeValue(new File("src/test/data/account.json"), new LoginData(personalInfo.getPassword()));
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
 
+        pageAccount.logout();
+        testLogger.info("Test passed");
+    }
+
+    @Test
+    public void testAddressInformation() {
+
+        PageAccount pageAccount = new PageAccount(driver);
+        PageMain pageMain = new PageMain(driver);
+        PageLogin pageLogin = new PageLogin(driver);
+        PageAddress pageAddress = new PageAddress(driver);
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            Account account = objectMapper.readValue(new File("src/test/data/data.json"), Account.class);
+            LoginData login = objectMapper.readValue(new File("src/test/data/account.json"), LoginData.class);
+
+            pageMain.clickSignIn();
+            pageLogin.signIn(login.getEmail(), login.getPassword());
+            pageAccount.clickMyAddresses();
+            pageAddress.clickUpdate();
+
+            testLogger.info("Catching equivalence of the address data");
+            softAssert.assertEquals(pageAddress.getLOC_FIRST_NAME().getAttribute("value"), account.getText());
+            softAssert.assertEquals(pageAddress.getLOC_LAST_NAME().getAttribute("value"), account.getText());
+            softAssert.assertEquals(pageAddress.getLOC_COMPANY().getAttribute("value"), account.getText());
+            softAssert.assertEquals(pageAddress.getLOC_ADDRESS().getAttribute("value"), account.getText());
+            softAssert.assertEquals(pageAddress.getLOC_CITY().getAttribute("value"), account.getText());
+            softAssert.assertEquals(pageAddress.getLOC_STATE().getAttribute("value"), account.getState());
+            softAssert.assertEquals(pageAddress.getLOC_POSTCODE().getAttribute("value"), account.getPostcode());
+            softAssert.assertEquals(pageAddress.getLOC_COUNTRY().getAttribute("value"), account.getCountry());
+            softAssert.assertEquals(pageAddress.getLOC_PHONE().getAttribute("value"), account.getPhone());
+            softAssert.assertAll();
         }
         catch (Exception e) {
             e.getStackTrace();
         }
 
+        pageAccount.logout();
+        testLogger.info("Test passed");
+    }
+
+    @Test
+    public void testAddressChanging() {
+
+        PageAccount pageAccount = new PageAccount(driver);
+        PageMain pageMain = new PageMain(driver);
+        PageLogin pageLogin = new PageLogin(driver);
+        PageAddress pageAddress = new PageAddress(driver);
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            Account account = objectMapper.readValue(new File("src/test/data/data.json"), Account.class);
+            LoginData login = objectMapper.readValue(new File("src/test/data/account.json"), LoginData.class);
+            PageAddress address = objectMapper.readValue(new File("src/test/data/address_for_change"), PageAddress.class);
+
+            pageMain.clickSignIn();
+            pageLogin.signIn(login.getEmail(), login.getPassword());
+            pageAccount.clickMyAddresses();
+            pageAddress.clickUpdate();
+
+            testLogger.info("Entering new address data");
+            pageAddress.changeAddressDate(address);
+            testLogger.info("Catching equivalence of the address data");
+            softAssert.assertEquals(pageAddress.getLOC_COMPANY().getAttribute("value"), pageAddress.getText());
+            softAssert.assertEquals(pageAddress.getLOC_ADDRESS().getAttribute("value"), pageAddress.getText());
+            softAssert.assertEquals(pageAddress.getLOC_CITY().getAttribute("value"), pageAddress.getText());
+            softAssert.assertEquals(pageAddress.getLOC_STATE().getAttribute("value"), pageAddress.getState());
+            softAssert.assertEquals(pageAddress.getLOC_POSTCODE().getAttribute("value"), pageAddress.getPostcode());
+            softAssert.assertEquals(pageAddress.getLOC_PHONE().getAttribute("value"), pageAddress.getPhone());
+            softAssert.assertAll();
+        }
+        catch (Exception e) {
+            e.getStackTrace();
+        }
+
+        pageAccount.logout();
+        testLogger.info("Test passed");
     }
 
 
