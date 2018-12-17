@@ -67,7 +67,7 @@ public class PageRegistration {
         LOC_RADIO_GENDER.click();
         LOC_FIRST_NAME.sendKeys(account.text);
         LOC_LAST_NAME.sendKeys(account.text);
-        LOC_PASSWORD.sendKeys(account.pass);
+        LOC_PASSWORD.sendKeys(account.password);
 
         selectText(LOC_DAYS, account.day);
         selectText(LOC_MONTHS, account.month);

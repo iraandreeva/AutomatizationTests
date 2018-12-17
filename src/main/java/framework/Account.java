@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import static framework.PageLogin.mail;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,6 +19,12 @@ public class Account{
     public String country;
     public String state;
     public String phone;
-    public String pass;
+    public String password;
+    public String email;
+
+    public Account(String password) {
+        this.password = password;
+        email = mail;
+    }
 
 }

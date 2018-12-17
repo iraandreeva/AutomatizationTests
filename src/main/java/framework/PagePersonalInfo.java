@@ -48,9 +48,9 @@ public class PagePersonalInfo {
         return LOC_RADIO_GENDER;
     }
 
-    public String firstName;
-    public String lastName;
-    public String password;
+    public String firstName = "Loshpek";
+    public String lastName = "Loshpek";
+    public String password = "password";
 
     public PagePersonalInfo(final WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -59,19 +59,21 @@ public class PagePersonalInfo {
     static final Logger testLogger = LogManager.getLogger(PagePersonalInfo.class);
     Account account = new Account();
 
-    public void enterNewPersonalInfo(PagePersonalInfo page) {
+    public void enterNewPersonalInfo() {
         testLogger.info("Change first and last name");
         LOC_FIRST_NAME.clear();
         LOC_LAST_NAME.clear();
-        LOC_FIRST_NAME.sendKeys(page.firstName);
-        LOC_LAST_NAME.sendKeys(page.lastName);
+        LOC_FIRST_NAME.sendKeys(firstName);
+        LOC_LAST_NAME.sendKeys(lastName);
+        account.text = firstName;
 
     }
 
-    public void changePass(PagePersonalInfo page) {
+    public void changePass() {
         testLogger.info("Change password");
-        LOC_NEW_PASS.sendKeys(page.password);
-        LOC_PASS_CONFIRM.sendKeys(page.password);
+        LOC_NEW_PASS.sendKeys(password);
+        LOC_PASS_CONFIRM.sendKeys(password);
+        account.password = password;
     }
 
     public void saveAndBack(String pass) {
@@ -94,7 +96,7 @@ public class PagePersonalInfo {
     }
 
     public boolean isEmail(Account account) {
-        return getLOC_EMAIL().getAttribute("value").equals(new LoginData().getEmail());
+        return getLOC_EMAIL().getAttribute("value").equals(account.getEmail());
     }
 
     public boolean isCheckboxNewsletter(Account account) {

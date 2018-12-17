@@ -1,7 +1,6 @@
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import framework.Account;
-import framework.LoginData;
 import framework.PagePersonalInfo;
 
 import java.io.File;
@@ -13,7 +12,6 @@ import java.util.Iterator;
 public class DataSet {
 
     Collection<Account> accounts;
-    Collection<LoginData> logins;
     Collection<PagePersonalInfo> personals;
 
     public void processDataFileAccount( String filePath ){
@@ -45,34 +43,6 @@ public class DataSet {
         return data;
     }
 
-    public void processDataFileLogin( String filePath ){
-
-        logins = new ArrayList<>();
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            LoginData login = objectMapper.readValue( new File( filePath ), LoginData.class );
-            logins.add( login );
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public Object[][] getDataLogin() {
-
-        Object[][] data = new Object[ logins.size() ][ 1 ];
-
-        Iterator<LoginData> it = logins.iterator();
-
-        int i = 0;
-        while( it.hasNext() ) {
-            data[ i ][ 0 ] = it.next();
-            i++;
-        }
-
-        return data;
-    }
 
     public void processDataFilePersonal( String filePath ){
 

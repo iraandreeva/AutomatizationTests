@@ -60,8 +60,8 @@ public class TestBase {
         dataSetLogin = new DataSet();
         dataSetPersonal = new DataSet();
         HashMap<String,String> parameters = new HashMap<>( testContext.getCurrentXmlTest().getAllParameters());
-        dataSetAccount.processDataFileAccount( parameters.get( "dataFileAccount" ) );
-        dataSetLogin.processDataFileLogin( parameters.get( "dataFileLogin" ) );
+        dataSetAccount.processDataFileAccount( parameters.get( "dataFileAccount") );
+        //dataSetLogin.processDataFileLogin( parameters.get( "dataFileLogin" ) );
         dataSetPersonal.processDataFilePersonal( parameters.get( "dataFilePersonal" ) );
 
     }
