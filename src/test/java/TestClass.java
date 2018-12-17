@@ -47,7 +47,7 @@ public class TestClass extends TestBase {
 
     }
 
-    @DataProvider
+    @DataProvider(name = "dataProviderAccount" )
     private Object[][] dataProviderAccount(){
         return dataSetAccount.getDataAccount();
     }
@@ -117,7 +117,7 @@ public class TestClass extends TestBase {
                 };
     }
 
-    @Test
+    @Test(dataProvider = "dataProviderPersonal")
     public void testEditNewPersonalInfo(LoginData login, PagePersonalInfo personalInfo, Account account) {
 
         PagePersonalInfo pagePersonalInfo = new PagePersonalInfo(driver);
@@ -201,14 +201,6 @@ public class TestClass extends TestBase {
 
             testLogger.info("Entering new address data");
             pageAddress.changeAddressDate(address);
-            testLogger.info("Catching equivalence of the address data");
-            softAssert.assertEquals(pageAddress.getLOC_COMPANY().getAttribute("value"), pageAddress.getText());
-            softAssert.assertEquals(pageAddress.getLOC_ADDRESS().getAttribute("value"), pageAddress.getText());
-            softAssert.assertEquals(pageAddress.getLOC_CITY().getAttribute("value"), pageAddress.getText());
-            softAssert.assertEquals(pageAddress.getLOC_STATE().getAttribute("value"), pageAddress.getState());
-            softAssert.assertEquals(pageAddress.getLOC_POSTCODE().getAttribute("value"), pageAddress.getPostcode());
-            softAssert.assertEquals(pageAddress.getLOC_PHONE().getAttribute("value"), pageAddress.getPhone());
-            softAssert.assertAll();
         }
         catch (Exception e) {
             e.getStackTrace();
