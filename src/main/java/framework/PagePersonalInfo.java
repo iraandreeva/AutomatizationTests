@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.util.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -16,12 +17,12 @@ import org.openqa.selenium.support.PageFactory;
 @NoArgsConstructor
 public class PagePersonalInfo {
 
-    @FindBy(id = "id_gender2")
-    private WebElement LOC_RADIO_GENDER;
     @FindBy(id = "firstname")
     private WebElement LOC_FIRST_NAME;
     @FindBy(id = "lastname")
     private WebElement LOC_LAST_NAME;
+    @FindBy(id = "id_gender2")
+    private WebElement LOC_RADIO_GENDER;
     @FindBy(id = "days")
     private WebElement LOC_DAYS;
     @FindBy(id = "months")
@@ -43,6 +44,9 @@ public class PagePersonalInfo {
     @FindBy(id = "confirmation")
     private WebElement LOC_PASS_CONFIRM;
 
+    public WebElement getLOC_RADIO_GENDER() {
+        return LOC_RADIO_GENDER;
+    }
 
     public String firstName;
     public String lastName;
@@ -53,6 +57,7 @@ public class PagePersonalInfo {
     }
 
     static final Logger testLogger = LogManager.getLogger(PagePersonalInfo.class);
+    Account account = new Account();
 
     public void enterNewPersonalInfo(PagePersonalInfo page) {
         testLogger.info("Change first and last name");
@@ -74,6 +79,26 @@ public class PagePersonalInfo {
         LOC_OLD_PASS.sendKeys(pass);
         LOC_SAVE.click();
         LOC_BACK_TO_ACC.click();
+    }
+
+    public boolean isFirstName(Account account) {
+        return getLOC_FIRST_NAME().getAttribute("value").equals(account.getText());
+    }
+
+    public boolean isLastName(Account account) {
+        return getLOC_LAST_NAME().getAttribute("value").equals(account.getText());
+    }
+
+    public boolean isGender(WebDriver driver, Account account) {
+        return getLOC_RADIO_GENDER().getAttribute("id").equals(new PageRegistration(driver).getLOC_RADIO_GENDER().getAttribute("id"));
+    }
+
+    public boolean isEmail(Account account) {
+        return getLOC_EMAIL().getAttribute("value").equals(new LoginData().getEmail());
+    }
+
+    public boolean isCheckboxNewsletter(Account account) {
+        return getLOC_NEWSLETTER().getAttribute("class").equals("checked");
     }
 
 }

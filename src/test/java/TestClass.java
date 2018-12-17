@@ -48,11 +48,11 @@ public class TestClass extends TestBase {
     }
 
     @DataProvider
-    private Object[][] dataProvider(){
-        return dataSet.getData();
+    private Object[][] dataProviderAccount(){
+        return dataSetAccount.getDataAccount();
     }
 
-    @Test( dataProvider = "dataProvider" )
+    @Test( dataProvider = "dataProviderAccount" )
     public void testRegistrationFormFromDataFile(Account account) {
 
         PageRegistration pageRegistration = new PageRegistration(driver);
@@ -76,53 +76,55 @@ public class TestClass extends TestBase {
 //контекст тест нг
     //дата пулл
 
+    @DataProvider(name = "dataProviderLogin")
+    private Object[][] dataProviderLogin(){
+        return new Object[][]
+                {
+                        {dataSetAccount.getDataAccount(), dataSetLogin.getDataLogin()}
+                };
+    }
+
     //If you have changed the user data, you need to register new user.
-    @Test
-    public void testEquivalenceAccountPersonalData() {
+    @Test(dataProvider = "dataProviderLogin")
+    public void testEquivalenceAccountPersonalData(Account account, LoginData login) {
 
         PagePersonalInfo pagePersonalInfo = new PagePersonalInfo(driver);
-        PageRegistration pageRegistration = new PageRegistration(driver);
         PageAccount pageAccount = new PageAccount(driver);
         PageLogin pageLogin = new PageLogin(driver);
         PageMain pageMain = new PageMain(driver);
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        try {
-            LoginData login = objectMapper.readValue(new File("src/test/data/account.json"), LoginData.class); //в дата провайдер
-            Account acc = objectMapper.readValue(new File("src/test/data/data.json"), Account.class); //в дата провайдер
 
             pageMain.clickSignIn();
             pageLogin.signIn(login.getEmail(), login.getPassword());
             pageAccount.clickPersonalInformation();
 
             testLogger.info("Catching equivalence of the account data");
-            softAssert.assertEquals(pagePersonalInfo.getLOC_FIRST_NAME().getAttribute("value"), acc.getText());//ассерты тоже в отдельный метод
-            softAssert.assertEquals(pagePersonalInfo.getLOC_LAST_NAME().getAttribute("value"), acc.getText());
-            softAssert.assertEquals(pagePersonalInfo.getLOC_RADIO_GENDER().getAttribute("id"), pageRegistration.getLOC_RADIO_GENDER().getAttribute("id"));
-            softAssert.assertEquals(pagePersonalInfo.getLOC_EMAIL().getAttribute("value"), login.getEmail());
-            softAssert.assertEquals(pagePersonalInfo.getLOC_NEWSLETTER().getAttribute("class"), "checked");
+            softAssert.assertTrue(pagePersonalInfo.isFirstName(account));
+            softAssert.assertTrue(pagePersonalInfo.isLastName(account));
+            softAssert.assertTrue(pagePersonalInfo.isGender(driver, account));
+            softAssert.assertTrue(pagePersonalInfo.isEmail(account));
+            softAssert.assertTrue(pagePersonalInfo.isCheckboxNewsletter(account));
             softAssert.assertAll();
-        } catch (Exception e) {
-            e.getStackTrace();
-        }
 
         pageAccount.logout();
         testLogger.info("Test passed");
     }
 
+    @DataProvider(name = "dataProviderPersonal")
+    private Object[][] dataProviderPersonal(){
+        return new Object[][]
+                {
+                        {dataSetAccount.getDataAccount(), dataSetLogin.getDataLogin(), dataSetLogin.getDataLogin()}
+                };
+    }
+
     @Test
-    public void testEditNewPersonalInfo() {
+    public void testEditNewPersonalInfo(LoginData login, PagePersonalInfo personalInfo, Account account) {
 
         PagePersonalInfo pagePersonalInfo = new PagePersonalInfo(driver);
         PageAccount pageAccount = new PageAccount(driver);
         PageMain pageMain = new PageMain(driver);
         PageLogin pageLogin = new PageLogin(driver);
-        ObjectMapper objectMapper = new ObjectMapper();
 
-        try {
-            Account account = objectMapper.readValue(new File("src/test/data/data.json"), Account.class);
-            PagePersonalInfo personalInfo = objectMapper.readValue(new File("src/test/data/data_for_change.json"), PagePersonalInfo.class);
-            LoginData login = objectMapper.readValue(new File("src/test/data/account.json"), LoginData.class);
 
             pageMain.clickSignIn();
             pageLogin.signIn(login.getEmail(), login.getPassword());
@@ -134,15 +136,8 @@ public class TestClass extends TestBase {
             pagePersonalInfo.saveAndBack(account.getPass());
 
             pageAccount.clickPersonalInformation();
-            testLogger.info("Catching equivalence of the account data");
-            softAssert.assertEquals(pagePersonalInfo.getLOC_FIRST_NAME().getAttribute("value"), personalInfo.getFirstName());
-            softAssert.assertEquals(pagePersonalInfo.getLOC_LAST_NAME().getAttribute("value"), personalInfo.getLastName());
-            softAssert.assertAll();
 
-            objectMapper.writeValue(new File("src/test/data/account.json"), new LoginData(personalInfo.getPassword()));
-        } catch (Exception e) {
-            e.getStackTrace();
-        }
+            //objectMapper.writeValue(new File("src/test/data/account.json"), new LoginData(personalInfo.getPassword()));
 
         pageAccount.logout();
         testLogger.info("Test passed");
@@ -167,15 +162,15 @@ public class TestClass extends TestBase {
             pageAddress.clickUpdate();
 
             testLogger.info("Catching equivalence of the address data");
-            softAssert.assertEquals(pageAddress.getLOC_FIRST_NAME().getAttribute("value"), account.getText());
-            softAssert.assertEquals(pageAddress.getLOC_LAST_NAME().getAttribute("value"), account.getText());
-            softAssert.assertEquals(pageAddress.getLOC_COMPANY().getAttribute("value"), account.getText());
-            softAssert.assertEquals(pageAddress.getLOC_ADDRESS().getAttribute("value"), account.getText());
-            softAssert.assertEquals(pageAddress.getLOC_CITY().getAttribute("value"), account.getText());
-            softAssert.assertEquals(pageAddress.getLOC_STATE().getAttribute("value"), account.getState());
-            softAssert.assertEquals(pageAddress.getLOC_POSTCODE().getAttribute("value"), account.getPostcode());
-            softAssert.assertEquals(pageAddress.getLOC_COUNTRY().getAttribute("value"), account.getCountry());
-            softAssert.assertEquals(pageAddress.getLOC_PHONE().getAttribute("value"), account.getPhone());
+            softAssert.assertTrue(pageAddress.isFirstName(account));
+            softAssert.assertTrue(pageAddress.isLastName(account));
+            softAssert.assertTrue(pageAddress.isCompany(account));
+            softAssert.assertTrue(pageAddress.isAddress(account));
+            softAssert.assertTrue(pageAddress.isCity(account));
+            softAssert.assertTrue(pageAddress.isState(account));
+            softAssert.assertTrue(pageAddress.isPostcode(account));
+            softAssert.assertTrue(pageAddress.isCountry(account));
+            softAssert.assertTrue(pageAddress.isPhone(account));
             softAssert.assertAll();
         }
         catch (Exception e) {

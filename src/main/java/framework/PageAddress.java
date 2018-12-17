@@ -71,7 +71,41 @@ public class PageAddress {
         LOC_SAVE.click();
     }
 
+            public boolean isLastName(Account account) {
+                return getLOC_LAST_NAME().getAttribute("value").equals(account.getText());
+            }
 
+            public boolean isFirstName(Account account){
+                return getLOC_FIRST_NAME().getAttribute("value").equals(account.getText());
+            }
+
+            public boolean isCompany(Account account) {
+                return getLOC_COMPANY().getAttribute("value").equals(account.getText());
+            }
+
+            public boolean isAddress(Account account) {
+                return getLOC_ADDRESS().getAttribute("value").equals(account.getText());
+            }
+
+            public boolean isCity(Account account) {
+                return getLOC_CITY().getAttribute("value").equals(account.getText());
+            }
+
+            public boolean isState(Account account) {
+                return getLOC_STATE().getAttribute("value").equals(account.getState());
+            }
+
+            public boolean isPostcode(Account account) {
+                return getLOC_POSTCODE().getAttribute("value").equals(account.getPostcode());
+            }
+
+            public boolean isCountry(Account account) {
+                return getLOC_COUNTRY().getAttribute("value").equals(account.getCountry());
+            }
+
+            public boolean isPhone(Account account) {
+                return getLOC_PHONE().getAttribute("value").equals(account.getPhone());
+            }
 
 
 
