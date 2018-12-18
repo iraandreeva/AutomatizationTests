@@ -59,13 +59,11 @@ public class PageAddress {
         LOC_ADDRESS.clear();
         LOC_COMPANY.clear();
         LOC_CITY.clear();
-        LOC_STATE.clear();
         LOC_PHONE.clear();
         LOC_POSTCODE.clear();
         LOC_ADDRESS.sendKeys(text);
         LOC_COMPANY.sendKeys(text);
         LOC_CITY.sendKeys(text);
-        LOC_STATE.sendKeys(state);
         LOC_PHONE.sendKeys(phone);
         LOC_POSTCODE.sendKeys(postcode);
         LOC_SAVE.click();

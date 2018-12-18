@@ -51,7 +51,7 @@ public class TestClass extends TestBase {
         PageMain pageMain = new PageMain(driver);
 
         pageMain.clickSignIn();
-        pageLogin.signIn(account.getEmail(), account.getPassword());
+        pageLogin.signIn(PageLogin.mail, account.getPassword());
         pageAccount.clickPersonalInformation();
 
         testLogger.info("Catching equivalence of the account data");
@@ -75,7 +75,7 @@ public class TestClass extends TestBase {
         PageLogin pageLogin = new PageLogin(driver);
 
         pageMain.clickSignIn();
-        pageLogin.signIn(account.getEmail(), account.getPassword());
+        pageLogin.signIn(PageLogin.mail, account.getPassword());
         pageAccount.clickPersonalInformation();
 
         testLogger.info("Entering new account data");
@@ -98,7 +98,7 @@ public class TestClass extends TestBase {
         PageLogin pageLogin = new PageLogin(driver);
 
         pageMain.clickSignIn();
-        pageLogin.signIn(account.getEmail(), account.getPassword());
+        pageLogin.signIn(PageLogin.mail, account.getPassword());
         pageAccount.clickMyAddresses();
         pageAddress.clickUpdate();
 
@@ -127,7 +127,7 @@ public class TestClass extends TestBase {
         PageAddress pageAddress = new PageAddress(driver);
 
         pageMain.clickSignIn();
-        pageLogin.signIn(account.getEmail(), account.getPassword());
+        pageLogin.signIn(PageLogin.mail, account.getPassword());
         pageAccount.clickMyAddresses();
         pageAddress.clickUpdate();
 
@@ -148,7 +148,7 @@ public class TestClass extends TestBase {
         PageAccount pageAccount = new PageAccount(driver);
 
         pageMain.clickSignIn();
-        pageLogin.signIn(account.getEmail(), account.getPassword());
+        pageLogin.signIn(PageLogin.mail, account.getPassword());
 
         pagesShop.putToCart();
         pageOrder.makeOrder();

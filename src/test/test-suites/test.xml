@@ -7,11 +7,11 @@
         <classes>
             <class name="TestClass">
             <methods>
-                <!--<include name="testRegistrationFormFromDataFile"/>-->
-                <include name="testEquivalenceAccountPersonalData"/>
+                <include name="testRegistrationFormFromDataFile"/>
+                <!--<include name="testEquivalenceAccountPersonalData"/>-->
                 <!--<include name="testEditNewPersonalInfo"/>-->
                 <!--<include name="testEquivalenceAddressInformation"/>-->
-                <!--<include name="testAddressChanging"/>-->
+                <include name="testEditAddress"/>
             </methods>
             </class>
         </classes>

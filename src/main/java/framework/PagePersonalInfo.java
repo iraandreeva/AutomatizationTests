@@ -96,7 +96,7 @@ public class PagePersonalInfo {
     }
 
     public boolean isEmail(Account account) {
-        return getLOC_EMAIL().getAttribute("value").equals(account.getEmail());
+        return getLOC_EMAIL().getAttribute("value").equals(PageLogin.mail);
     }
 
     public boolean isCheckboxNewsletter() {

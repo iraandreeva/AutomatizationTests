@@ -20,7 +20,7 @@ public class Account{
     public String state;
     public String phone;
     public String password;
-    public String email = mail;
+//    public String email = mail;
 
     public Account(String password) {
         this.password = password;
