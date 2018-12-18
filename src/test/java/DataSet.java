@@ -12,7 +12,6 @@ import java.util.Iterator;
 public class DataSet {
 
     Collection<Account> accounts;
-    Collection<PagePersonalInfo> personals;
 
     public void processDataFileAccount( String filePath ){
 
@@ -33,36 +32,6 @@ public class DataSet {
         Object[][] data = new Object[ accounts.size() ][ 1 ];
 
         Iterator<Account> it = accounts.iterator();
-
-        int i = 0;
-        while( it.hasNext() ) {
-            data[ i ][ 0 ] = it.next();
-            i++;
-        }
-
-        return data;
-    }
-
-
-    public void processDataFilePersonal( String filePath ){
-
-        personals = new ArrayList<>();
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            PagePersonalInfo personal = objectMapper.readValue( new File( filePath ), PagePersonalInfo.class );
-            personals.add( personal );
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public Object[][] getDataPersonal() {
-
-        Object[][] data = new Object[ personals.size() ][ 1 ];
-
-        Iterator<PagePersonalInfo> it = personals.iterator();
 
         int i = 0;
         while( it.hasNext() ) {

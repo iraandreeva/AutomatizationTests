@@ -3,6 +3,7 @@ package framework;
 import lombok.Data;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.util.Assert;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -27,6 +28,8 @@ public class PageLogin {
     private WebElement LOC_PASSWORD;
     @FindBy(id = "SubmitLogin")
     private WebElement LOC_SUBMIT_LOGIN;
+    @FindBy(xpath = "//*[@id=\"create_account_error\"]")
+    private WebElement LOC_EMAIL_ERROR;
 
 
     static final Logger testLogger = LogManager.getLogger(PageRegistration.class);
@@ -46,5 +49,19 @@ public class PageLogin {
         LOC_EMAIL.sendKeys(mail);
         LOC_PASSWORD.sendKeys(pass);
         LOC_SUBMIT_LOGIN.click();
+    }
+
+    public boolean isEmailCorrect(Account account) {
+        LOC_EMAIL_CREATE.sendKeys(account.getEmail());
+        LOC_SUBMIT_CREATE.click();
+        if (!Assert.isEmpty(LOC_EMAIL_CREATE)) {
+            testLogger.info("Correct error. Email is empty.");
+            return false;
+
+        } else if (!LOC_EMAIL_ERROR.isDisplayed()) {
+            testLogger.info("Correct error. Email is wrong!");
+            return false;
+        }
+        return true;
     }
 }

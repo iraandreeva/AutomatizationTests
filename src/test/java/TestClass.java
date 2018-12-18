@@ -4,6 +4,7 @@ import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
+
 import java.io.IOException;
 
 public class TestClass extends TestBase {
@@ -18,7 +19,7 @@ public class TestClass extends TestBase {
     }
 
     @Test(dataProvider = "dataProviderAccount")
-    public void testRegistrationFormFromDataFile(Account account) throws IOException{
+    public void testRegistrationFormFromDataFile(Account account) {
 
         PageRegistration pageRegistration = new PageRegistration(driver);
         PageAccount pageAccount = new PageAccount(driver);
@@ -56,9 +57,9 @@ public class TestClass extends TestBase {
         testLogger.info("Catching equivalence of the account data");
         softAssert.assertTrue(pagePersonalInfo.isFirstName(account));
         softAssert.assertTrue(pagePersonalInfo.isLastName(account));
-        softAssert.assertTrue(pagePersonalInfo.isGender(driver, account));
+        softAssert.assertTrue(pagePersonalInfo.isGender(driver));
         softAssert.assertTrue(pagePersonalInfo.isEmail(account));
-        softAssert.assertTrue(pagePersonalInfo.isCheckboxNewsletter(account));
+        softAssert.assertTrue(pagePersonalInfo.isCheckboxNewsletter());
         softAssert.assertAll();
 
         pageAccount.logout();
@@ -96,22 +97,22 @@ public class TestClass extends TestBase {
         PageAddress pageAddress = new PageAddress(driver);
         PageLogin pageLogin = new PageLogin(driver);
 
-            pageMain.clickSignIn();
-            pageLogin.signIn(account.getEmail(), account.getPassword());
-            pageAccount.clickMyAddresses();
-            pageAddress.clickUpdate();
+        pageMain.clickSignIn();
+        pageLogin.signIn(account.getEmail(), account.getPassword());
+        pageAccount.clickMyAddresses();
+        pageAddress.clickUpdate();
 
-            testLogger.info("Catching equivalence of the address data");
-            softAssert.assertTrue(pageAddress.isFirstName(account));
-            softAssert.assertTrue(pageAddress.isLastName(account));
-            softAssert.assertTrue(pageAddress.isCompany(account));
-            softAssert.assertTrue(pageAddress.isAddress(account));
-            softAssert.assertTrue(pageAddress.isCity(account));
-            softAssert.assertTrue(pageAddress.isState(account));
-            softAssert.assertTrue(pageAddress.isPostcode(account));
-            softAssert.assertTrue(pageAddress.isCountry(account));
-            softAssert.assertTrue(pageAddress.isPhone(account));
-            softAssert.assertAll();
+        testLogger.info("Catching equivalence of the address data");
+        softAssert.assertTrue(pageAddress.isFirstName(account));
+        softAssert.assertTrue(pageAddress.isLastName(account));
+        softAssert.assertTrue(pageAddress.isCompany(account));
+        softAssert.assertTrue(pageAddress.isAddress(account));
+        softAssert.assertTrue(pageAddress.isCity(account));
+        softAssert.assertTrue(pageAddress.isState(account));
+        softAssert.assertTrue(pageAddress.isPostcode(account));
+        softAssert.assertTrue(pageAddress.isCountry(account));
+        softAssert.assertTrue(pageAddress.isPhone(account));
+        softAssert.assertAll();
 
         pageAccount.logout();
         testLogger.info("Test passed");
@@ -125,13 +126,13 @@ public class TestClass extends TestBase {
         PageLogin pageLogin = new PageLogin(driver);
         PageAddress pageAddress = new PageAddress(driver);
 
-            pageMain.clickSignIn();
-            pageLogin.signIn(account.getEmail(), account.getPassword());
-            pageAccount.clickMyAddresses();
-            pageAddress.clickUpdate();
+        pageMain.clickSignIn();
+        pageLogin.signIn(account.getEmail(), account.getPassword());
+        pageAccount.clickMyAddresses();
+        pageAddress.clickUpdate();
 
-            testLogger.info("Entering new address data");
-            pageAddress.changeAddressDate();
+        testLogger.info("Entering new address data");
+        pageAddress.changeAddressDate();
 
         pageAccount.logout();
         testLogger.info("Test passed");

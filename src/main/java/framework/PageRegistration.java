@@ -3,6 +3,7 @@ package framework;
 import lombok.Data;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.util.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -47,6 +48,8 @@ public class PageRegistration {
     private WebElement LOC_SUBMIT_ACCOUNT;
     @FindBy(id = "uniform-newsletter")
     private WebElement LOC_NEWSLETTER;
+    @FindBy(className = "required form-group form-error")
+    private WebElement LOC_CLASS_ERROR;
 
     public static Select select;
 
@@ -90,6 +93,29 @@ public class PageRegistration {
     public void submitAccount() {
         testLogger.info("Submit account form");
         LOC_SUBMIT_ACCOUNT.click();
+    }
+
+    public boolean isFirstNameCorrect() {
+        if (!Assert.isEmpty(LOC_FIRST_NAME)) {
+            testLogger.info("Correct error. First name is empty.");
+            return false;
+        }
+        else if (LOC_CLASS_ERROR.isDisplayed()) {
+            testLogger.info("Correct error. First name is wrong.");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isLastNameCorrect() {
+        if (!Assert.isEmpty(LOC_LAST_NAME)) {
+            testLogger.info("Correct error. Last name is empty.");
+            return false;
+        }
+        else if (LOC_CLASS_ERROR.isDisplayed()) {
+            return false;
+        }
+        return true;
     }
 
 

@@ -13,7 +13,6 @@ public class LoginData {
     public String email;
     public String password;
 
-
     public LoginData(String password) {
         this.password = password;
         email = mail;

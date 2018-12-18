@@ -30,9 +30,8 @@ public class TestBase {
     }
 
     private Properties property = new Properties();
-    DataSet dataSetAccount;
-    DataSet dataSetLogin;
-    DataSet dataSetPersonal;
+    public DataSet dataSetAccount;
+    public DataSet dataSetIncorrect;
 
     public TestBase(WebDriver driver) {
         this.driver = driver;
@@ -57,12 +56,11 @@ public class TestBase {
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
         dataSetAccount = new DataSet();
-        dataSetLogin = new DataSet();
-        dataSetPersonal = new DataSet();
+        dataSetIncorrect = new DataSet();
+
         HashMap<String,String> parameters = new HashMap<>( testContext.getCurrentXmlTest().getAllParameters());
         dataSetAccount.processDataFileAccount( parameters.get( "dataFileAccount") );
-        //dataSetLogin.processDataFileLogin( parameters.get( "dataFileLogin" ) );
-        //dataSetPersonal.processDataFilePersonal( parameters.get( "dataFilePersonal" ) );
+        dataSetIncorrect.processDataFileAccount( parameters.get( "dataFileAccountIncorrect") );
 
     }
 

@@ -91,7 +91,7 @@ public class PagePersonalInfo {
         return getLOC_LAST_NAME().getAttribute("value").equals(account.getText());
     }
 
-    public boolean isGender(WebDriver driver, Account account) {
+    public boolean isGender(WebDriver driver) {
         return getLOC_RADIO_GENDER().getAttribute("id").equals(new PageRegistration(driver).getLOC_RADIO_GENDER().getAttribute("id"));
     }
 
@@ -99,7 +99,7 @@ public class PagePersonalInfo {
         return getLOC_EMAIL().getAttribute("value").equals(account.getEmail());
     }
 
-    public boolean isCheckboxNewsletter(Account account) {
+    public boolean isCheckboxNewsletter() {
         return getLOC_NEWSLETTER().getAttribute("class").equals("checked");
     }
 
