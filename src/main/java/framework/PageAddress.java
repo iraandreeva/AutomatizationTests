@@ -38,10 +38,10 @@ public class PageAddress {
     @FindBy(id = "company")
     private WebElement LOC_COMPANY;
 
-    public String text;
-    public String phone;
-    public String postcode;
-    public String state;
+    public String text = "New text for test";
+    public String phone = "987654321";
+    public String postcode = "54321";
+    public String state = "31";
 
     public PageAddress(final WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -53,7 +53,7 @@ public class PageAddress {
         LOC_UPDATE.click();
     }
 
-    public void changeAddressDate(PageAddress page) {
+    public void changeAddressDate() {
 
         testLogger.info("Change address data");
         LOC_ADDRESS.clear();
@@ -62,12 +62,12 @@ public class PageAddress {
         LOC_STATE.clear();
         LOC_PHONE.clear();
         LOC_POSTCODE.clear();
-        LOC_ADDRESS.sendKeys(page.text);
-        LOC_COMPANY.sendKeys(page.text);
-        LOC_CITY.sendKeys(page.text);
-        LOC_STATE.sendKeys(page.state);
-        LOC_PHONE.sendKeys(page.phone);
-        LOC_POSTCODE.sendKeys(page.postcode);
+        LOC_ADDRESS.sendKeys(text);
+        LOC_COMPANY.sendKeys(text);
+        LOC_CITY.sendKeys(text);
+        LOC_STATE.sendKeys(state);
+        LOC_PHONE.sendKeys(phone);
+        LOC_POSTCODE.sendKeys(postcode);
         LOC_SAVE.click();
     }
 

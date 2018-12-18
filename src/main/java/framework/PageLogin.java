@@ -3,17 +3,19 @@ package framework;
 import lombok.Data;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.io.File;
+
 @Data
 public class PageLogin {
 
     private static final MailRandomizer email = new MailRandomizer();
-    public static final String mail = email.getSaltString() + "@gmail.com";;
-
+    public static final String mail = email.getSaltString() + "@gmail.com";
 
     @FindBy(id = "email_create")
     private WebElement LOC_EMAIL_CREATE;

@@ -2,16 +2,14 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="TestSuite">
     <parameter name="dataFileAccount" value="src/test/data/data.json"/>
-    <parameter name="dataFileLogin" value="src/test/data/account.json"/>
-    <parameter name="dataFilePersonal" value="src/test/data/data_for_change.json"/>
 
     <test name="AutoQA">
         <classes>
             <class name="TestClass">
             <methods>
                 <!--<include name="testRegistrationFormFromDataFile"/>-->
-                <!--<include name="testEquivalenceAccountPersonalData"/>-->
-                <include name="testEditNewPersonalInfo"/>
+                <include name="testEquivalenceAccountPersonalData"/>
+                <!--<include name="testEditNewPersonalInfo"/>-->
                 <!--<include name="testEquivalenceAddressInformation"/>-->
                 <!--<include name="testAddressChanging"/>-->
             </methods>

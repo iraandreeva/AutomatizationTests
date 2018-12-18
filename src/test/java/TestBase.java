@@ -62,7 +62,7 @@ public class TestBase {
         HashMap<String,String> parameters = new HashMap<>( testContext.getCurrentXmlTest().getAllParameters());
         dataSetAccount.processDataFileAccount( parameters.get( "dataFileAccount") );
         //dataSetLogin.processDataFileLogin( parameters.get( "dataFileLogin" ) );
-        dataSetPersonal.processDataFilePersonal( parameters.get( "dataFilePersonal" ) );
+        //dataSetPersonal.processDataFilePersonal( parameters.get( "dataFilePersonal" ) );
 
     }
 
