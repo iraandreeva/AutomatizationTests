@@ -54,7 +54,7 @@ public class PageLogin {
     public boolean isEmailCorrect(Account account) {
         LOC_EMAIL_CREATE.sendKeys(account.getEmail());
         LOC_SUBMIT_CREATE.click();
-        if (!Assert.isEmpty(LOC_EMAIL_CREATE)) {
+        if (LOC_EMAIL_CREATE == null) {
             testLogger.info("Correct error. Email is empty.");
             return false;
 

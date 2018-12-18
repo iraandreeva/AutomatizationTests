@@ -48,7 +48,7 @@ public class PageRegistration {
     private WebElement LOC_SUBMIT_ACCOUNT;
     @FindBy(id = "uniform-newsletter")
     private WebElement LOC_NEWSLETTER;
-    @FindBy(className = "required form-group form-error")
+    @FindBy(css = "input#customer_first_name.is_required.validate.form-control")
     private WebElement LOC_CLASS_ERROR;
 
     public static Select select;
@@ -96,11 +96,11 @@ public class PageRegistration {
     }
 
     public boolean isFirstNameCorrect() {
-        if (!Assert.isEmpty(LOC_FIRST_NAME)) {
+        if (LOC_FIRST_NAME == null) {
             testLogger.info("Correct error. First name is empty.");
             return false;
         }
-        else if (LOC_CLASS_ERROR.isDisplayed()) {
+        else if (LOC_CLASS_ERROR.isEnabled()) {
             testLogger.info("Correct error. First name is wrong.");
             return false;
         }
@@ -108,11 +108,11 @@ public class PageRegistration {
     }
 
     public boolean isLastNameCorrect() {
-        if (!Assert.isEmpty(LOC_LAST_NAME)) {
+        if (LOC_LAST_NAME == null) {
             testLogger.info("Correct error. Last name is empty.");
             return false;
         }
-        else if (LOC_CLASS_ERROR.isDisplayed()) {
+        else if (LOC_CLASS_ERROR.isEnabled()) {
             return false;
         }
         return true;

@@ -8,8 +8,8 @@
         <classes>
             <class name="NegativeTestClass">
                 <methods>
-                    <include name="checkCorrectEmailRegistration"/>
-                    <!--<include name="checkRegistrationData"/>-->
+                    <!--<include name="checkCorrectEmailRegistration"/>-->
+                    <include name="checkRegistrationData"/>
                 </methods>
             </class>
         </classes>
