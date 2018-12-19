@@ -4,12 +4,12 @@
     <parameter name="dataFileAccount" value="src/test/data/data.json"/>
     <parameter name="dataFileAccountIncorrect" value="src/test/data/dataNegative.json"/>
 
-    <test name="Negative test">
+    <test name="PlacingAnOrder">
         <classes>
-            <class name="NegativeTestClass">
+            <class name="TestClass">
                 <methods>
-                    <include name="checkCorrectEmailRegistration"/>
-                    <include name="checkRegistrationData"/>
+                    <include name="testRegistrationFormFromDataFile"/>
+                    <include name="testMakeOrder"/>
                 </methods>
             </class>
         </classes>

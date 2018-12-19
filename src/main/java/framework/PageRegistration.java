@@ -4,6 +4,7 @@ import lombok.Data;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.util.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -48,8 +49,12 @@ public class PageRegistration {
     private WebElement LOC_SUBMIT_ACCOUNT;
     @FindBy(id = "uniform-newsletter")
     private WebElement LOC_NEWSLETTER;
-    @FindBy(css = "input#customer_first_name.is_required.validate.form-control")
-    private WebElement LOC_CLASS_ERROR;
+    @FindBy(xpath = "/html/body/div[1]/div[2]/div/div[3]/div/div")
+    private WebElement LOC_ERROR;
+    @FindBy(partialLinkText = "firstname")
+    private WebElement LOC_ERR_FIRST_NAME;
+    @FindBy(xpath = "//*[@id=\"email\"]")
+    private WebElement LOC_EMAIl;
 
     public static Select select;
 
@@ -95,29 +100,174 @@ public class PageRegistration {
         LOC_SUBMIT_ACCOUNT.click();
     }
 
-    public boolean isFirstNameCorrect() {
-        if (LOC_FIRST_NAME == null) {
-            testLogger.info("Correct error. First name is empty.");
-            return false;
-        }
-        else if (LOC_CLASS_ERROR.isEnabled()) {
-            testLogger.info("Correct error. First name is wrong.");
-            return false;
-        }
-        return true;
+    public boolean isCorrectDataEntered() {
+        if (LOC_ERROR.getText().contains("firstname is"))
+            testLogger.info("Correct error. Firstname is null or invalid");
+        if (LOC_ERROR.getText().contains("lastname is"))
+            testLogger.info("Correct error. Lastname is null or invalid");
+        if (LOC_ERROR.getText().contains("passwd is"))
+            testLogger.info("Correct error. Pass is null");
+        if (LOC_ERROR.getText().contains("address1 is"))
+            testLogger.info("Correct error. Address is null");
+        if (LOC_ERROR.getText().contains("city is"))
+            testLogger.info("Correct error. City is null");
+        if (LOC_ERROR.getText().contains("phone"))
+            testLogger.info("Correct error. Phone is null or invalid");
+        if (LOC_ERROR.getText().contains("Postal code"))
+            testLogger.info("Correct error. Postcode is null or invalid");
+        if (LOC_ERROR.getText().contains("State"))
+            testLogger.info("Correct error. State is null");
+        return (!LOC_ERROR.getText().contains("firstname is")) && (!LOC_ERROR.getText().contains("lastname is"))
+                && (!LOC_ERROR.getText().contains("passwd is")) && (!LOC_ERROR.getText().contains("address1 is"))
+                && (!LOC_ERROR.getText().contains("city is")) && (!LOC_ERROR.getText().contains("phone"))
+                && (!LOC_ERROR.getText().contains("Postal code")) && (!LOC_ERROR.getText().contains("State"));
     }
 
-    public boolean isLastNameCorrect() {
-        if (LOC_LAST_NAME == null) {
-            testLogger.info("Correct error. Last name is empty.");
+    public boolean isPresenceFirstName() {
+        try {
+            LOC_FIRST_NAME.click();
+            return true;
+        }
+        catch (Exception e) {
+            testLogger.info("First Name is absent");
             return false;
         }
-        else if (LOC_CLASS_ERROR.isEnabled()) {
-            return false;
-        }
-        return true;
+
     }
 
+    public boolean isPresenceLastName() {
+        try {
+            LOC_LAST_NAME.click();
+            return true;
+        }
+        catch (Exception e) {
+            testLogger.info("Last Name is absent");
+            return false;
+        }
+    }
 
+    public boolean isPresenceGender() {
+        try {
+            LOC_RADIO_GENDER.click();
+            return true;
+        }
+        catch (Exception e) {
+            testLogger.info("Gender is absent");
+            return false;
+        }
+    }
 
+    public boolean isPresenceEmail() {
+        try {
+            LOC_EMAIl.click();
+            return true;
+        }
+        catch (Exception e) {
+            testLogger.info("Email is absent");
+            return false;
+        }
+
+    }
+
+    public boolean isPresencePassword() {
+        try {
+            LOC_PASSWORD.click();
+            return true;
+        }
+        catch (Exception e) {
+            testLogger.info("Password is absent");
+            return false;
+        }
+    }
+
+    public boolean isPresenceDateBirth() {
+        try {
+            LOC_DAYS.click();
+            LOC_MONTHS.click();
+            LOC_YEARS.click();
+            return true;
+        }
+        catch (Exception e) {
+            testLogger.info("Date of birth is absent");
+            return false;
+        }
+    }
+
+    public boolean isPresenceNewsletter() {
+        try {
+            LOC_NEWSLETTER.click();
+            return true;
+        }
+        catch (Exception e) {
+            testLogger.info("Checkbox newsletter is absent");
+            return false;
+        }
+    }
+
+    public boolean isPresenceAddress() {
+        try {
+            LOC_ADDRESS.click();
+            return true;
+        }
+        catch (Exception e) {
+            testLogger.info("Address is absent");
+            return false;
+        }
+    }
+
+    public boolean isPresenceCity() {
+        try {
+            LOC_CITY.click();
+            return true;
+        }
+        catch (Exception e) {
+            testLogger.info("City is absent");
+            return false;
+        }
+
+    }
+
+    public boolean isPresenceState() {
+        try {
+            LOC_STATE.click();
+            return true;
+        }
+        catch (Exception e) {
+            testLogger.info("State is absent");
+            return false;
+        }
+    }
+
+    public boolean isPresenceZip() {
+        try {
+            LOC_POSTCODE.click();
+            return true;
+        }
+        catch (Exception e) {
+            testLogger.info("Postcode is absent");
+            return false;
+        }
+    }
+
+    public boolean isPresenceCountry() {
+        try {
+            LOC_COUNTRY.click();
+            return true;
+        }
+        catch (Exception e) {
+            testLogger.info("Country is absent");
+            return false;
+        }
+    }
+
+    public boolean isPresencePhone() {
+        try {
+            LOC_PHONE.click();
+            return true;
+        }
+        catch (Exception e) {
+            testLogger.info("Phone is absent");
+            return false;
+        }
+    }
 }

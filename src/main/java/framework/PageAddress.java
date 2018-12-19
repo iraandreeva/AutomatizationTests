@@ -33,7 +33,7 @@ public class PageAddress {
     private WebElement LOC_COUNTRY;
     @FindBy(id = "phone_mobile")
     private WebElement LOC_PHONE;
-    @FindBy(partialLinkText = "Save")
+    @FindBy(xpath = "/html/body/div[1]/div[2]/div/div[3]/div/div/form/p[2]/button/span")
     private WebElement LOC_SAVE;
     @FindBy(id = "company")
     private WebElement LOC_COMPANY;

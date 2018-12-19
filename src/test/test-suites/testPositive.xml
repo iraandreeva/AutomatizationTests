@@ -2,15 +2,16 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="TestSuite">
     <parameter name="dataFileAccount" value="src/test/data/data.json"/>
+    <parameter name="dataFileAccountIncorrect" value="src/test/data/dataNegative.json"/>
 
     <test name="AutoQA">
         <classes>
             <class name="TestClass">
             <methods>
                 <include name="testRegistrationFormFromDataFile"/>
-                <!--<include name="testEquivalenceAccountPersonalData"/>-->
-                <!--<include name="testEditNewPersonalInfo"/>-->
-                <!--<include name="testEquivalenceAddressInformation"/>-->
+                <include name="testEquivalenceAccountPersonalData"/>
+                <include name="testEditNewPersonalInfo"/>
+                <include name="testEquivalenceAddressInformation"/>
                 <include name="testEditAddress"/>
             </methods>
             </class>

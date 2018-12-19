@@ -157,5 +157,7 @@ public class TestClass extends TestBase {
         pageAccount.clickOrders();
 
         pageOrder.isOrder();
+        pageAccount.logout();
+        testLogger.info("Test passed");
     }
 }

@@ -3,3 +3,38 @@
 "d4VzxJqVNY@gmail.com",
 "najySTcbfY@gmail.com",
 "1DfHqdL7sQ@gmail.com"
+
+Implement following improvements for your test framework:
+
+install Lombok (plugin and dependency) and apply Lombok annotations to your model class;
+store test data in data files (xml or json);
+simple data pool class to handle data files;
+add custom parameter pointing to a data file into your xml suite;
+optional: enhance your data pool implementation to make it work with arbitrary model classes;
+optional: implement the ability to handle data file parameter not only on suite level, but also for each <test></test> block;
+optional: implement login\logout parameters for the test suite.
+
+Implement tests for:
+
+verification of account data for created account ( personal info and addresses );
+edit personal info and addresses.
+
+
+Automated Tests Implementation Practice #1: Negative Account Registration
+Implement a test to verify that correct errors are shown on the registration page when trying to register an account with invalid values or\and empty required fields.
+
+Create a separate XML suite for negative tests.
+
+
+
+Automated Tests Implementation Practice #2: Page Elements Verification
+Implement a test to verify that correct page elements are shown on the registration page.
+
+Create a separate XML suite for page element tests.
+
+
+
+Automated Tests Implementation Practice #3: Placing an Order
+Implement a test to place an order for your account. As a result order should be displayed in the list of orders in account details. It is not required to implement a test to verify the order details after that.
+
+Create a separate XML suite for this test.

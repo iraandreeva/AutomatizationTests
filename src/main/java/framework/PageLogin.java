@@ -51,7 +51,7 @@ public class PageLogin {
         LOC_SUBMIT_LOGIN.click();
     }
 
-    public boolean isEmailCorrect(Account account) {
+    public boolean isEmailCorrect() {
         LOC_EMAIL_CREATE.sendKeys(mail);
         LOC_SUBMIT_CREATE.click();
         if (LOC_EMAIL_CREATE == null) {

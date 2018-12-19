@@ -60,7 +60,7 @@ public class TestBase {
 
         HashMap<String,String> parameters = new HashMap<>( testContext.getCurrentXmlTest().getAllParameters());
         dataSetAccount.processDataFileAccount( parameters.get( "dataFileAccount") );
-//        dataSetIncorrect.processDataFileAccount( parameters.get( "dataFileAccountIncorrect") );
+        dataSetIncorrect.processDataFileAccount( parameters.get( "dataFileAccountIncorrect") );
 
     }
 

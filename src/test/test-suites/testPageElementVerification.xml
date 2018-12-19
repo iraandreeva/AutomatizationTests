@@ -2,12 +2,12 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="TestSuite">
     <parameter name="dataFileAccount" value="src/test/data/data.json"/>
-
-    <test name="PlacingAnOrder">
+    <parameter name="dataFileAccountIncorrect" value="src/test/data/dataNegative.json"/>
+    <test name="Page element verification">
         <classes>
-            <class name="TestClass">
+            <class name="PageElementVerification">
                 <methods>
-                    <include name="testMakeOrder"/>
+                    <include name="registrationPageElementVerification"/>
                 </methods>
             </class>
         </classes>

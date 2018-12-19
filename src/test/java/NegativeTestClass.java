@@ -22,7 +22,7 @@ public class NegativeTestClass extends TestBase{
         PageMain pageMain = new PageMain(driver);
 
         pageMain.clickSignIn();
-        softAssert.assertFalse(pageLogin.isEmailCorrect(account));
+        softAssert.assertFalse(pageLogin.isEmailCorrect());
         testLogger.info("Negative test passed!");
     }
 
@@ -35,10 +35,8 @@ public class NegativeTestClass extends TestBase{
         pageMain.clickSignIn();
         pageLogin.enterNewEmail();
         pageRegistration.fillRegistrationForm(account);
-        pageRegistration.isFirstNameCorrect();
-
-
-
+        pageRegistration.submitAccount();
+        softAssert.assertFalse(pageRegistration.isCorrectDataEntered());
 
     }
 
