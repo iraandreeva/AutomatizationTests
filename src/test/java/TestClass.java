@@ -6,6 +6,7 @@ import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class TestClass extends TestBase {
 
@@ -137,12 +138,34 @@ public class TestClass extends TestBase {
         pageLogin.signIn(PageLogin.mail, account.getPassword());
 
         pagesShop.putToCart(driver);
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         pageOrder.makeOrder();
 
         pageAccount.clickAccount();
         pageAccount.clickOrders();
 
         pageOrder.isOrder();
+        softAssert.assertAll();
+
+        pageAccount.logout();
+        testLogger.info("Test passed");
+    }
+
+    @Test(dataProvider = "dataProviderAccount")
+    public void testDownload(Account account) {
+        PagesShop pagesShop = new PagesShop(driver);
+        PageOrder pageOrder = new PageOrder(driver);
+        PageMain pageMain = new PageMain(driver);
+        PageLogin pageLogin = new PageLogin(driver);
+        PageAccount pageAccount = new PageAccount(driver);
+
+        pageMain.clickSignIn();
+        pageLogin.signIn(PageLogin.mail, account.getPassword());
+
+        pageAccount.clickAccount();
+        pageAccount.clickOrders();
+
+        softAssert.assertTrue(pageOrder.downloadOrderInvoice(driver));
         softAssert.assertAll();
 
         pageAccount.logout();

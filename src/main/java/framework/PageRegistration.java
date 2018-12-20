@@ -11,6 +11,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 @Data
 public class PageRegistration {
 
@@ -100,27 +103,19 @@ public class PageRegistration {
         LOC_SUBMIT_ACCOUNT.click();
     }
 
+    String[] registrationFields = new String[]{
+        "firstname", "lastname", "passwd", "address1", "city", "phone", "Postal code", "State"
+    };
+
     public boolean isCorrectDataEntered() {
-        if (LOC_ERROR.getText().contains("firstname is"))
-            testLogger.info("Correct error. Firstname is null or invalid");
-        if (LOC_ERROR.getText().contains("lastname is"))
-            testLogger.info("Correct error. Lastname is null or invalid");
-        if (LOC_ERROR.getText().contains("passwd is"))
-            testLogger.info("Correct error. Pass is null");
-        if (LOC_ERROR.getText().contains("address1 is"))
-            testLogger.info("Correct error. Address is null");
-        if (LOC_ERROR.getText().contains("city is"))
-            testLogger.info("Correct error. City is null");
-        if (LOC_ERROR.getText().contains("phone"))
-            testLogger.info("Correct error. Phone is null or invalid");
-        if (LOC_ERROR.getText().contains("Postal code"))
-            testLogger.info("Correct error. Postcode is null or invalid");
-        if (LOC_ERROR.getText().contains("State"))
-            testLogger.info("Correct error. State is null");
-        return (!LOC_ERROR.getText().contains("firstname is")) && (!LOC_ERROR.getText().contains("lastname is"))
-                && (!LOC_ERROR.getText().contains("passwd is")) && (!LOC_ERROR.getText().contains("address1 is"))
-                && (!LOC_ERROR.getText().contains("city is")) && (!LOC_ERROR.getText().contains("phone"))
-                && (!LOC_ERROR.getText().contains("Postal code")) && (!LOC_ERROR.getText().contains("State"));
+        boolean hasError = false;
+        for (String registrationField : registrationFields) {
+            if(LOC_ERROR.getText().contains(registrationField)) {
+                testLogger.info("Correct error. " + registrationField.toUpperCase() + " is null or invalid");
+                hasError = true;
+            }
+        }
+        return !hasError;
     }
 
     public boolean isPresenceFirstName() {

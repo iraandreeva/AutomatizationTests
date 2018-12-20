@@ -8,11 +8,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.concurrent.TimeUnit;
+
 public class PageOrder {
 
-    @FindBy(css = "a.btn.btn-default.button.button-medium")
+    @FindBy(css = "a[title='Proceed to checkout']")
     private WebElement LOC_CHECKOUT1;
-    @FindBy(css = "a.button.btn.btn-default.standard-checkout.button-medium")
+    @FindBy(css = "a.standard-checkout")
     private WebElement LOC_CHECKOUT2;
     @FindBy(css = "button.button.btn.btn-default.button-medium")
     private WebElement LOC_CHECKOUT3;
@@ -28,6 +30,11 @@ public class PageOrder {
     private WebElement LOC_ORDERS;
     @FindBy(className = "first_item ")
     private WebElement LOC_FIRST_ORDER;
+    //    @FindBy(css = "#order-list tr:first-child a[title='Invoice']")
+    @FindBy(css = "#order-list tr:first-child a.color-myaccount")
+    private WebElement LOC_ORDER;
+    @FindBy(css = ".info-order a")
+    private WebElement LOC_INVOICE;
 
     public PageOrder(final WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -37,11 +44,10 @@ public class PageOrder {
 
     public void makeOrder() {
         testLogger.info("Make and confirm the order");
-        if (LOC_CHECKOUT1.getText().contains("Proceed"))
-            LOC_CHECKOUT1.click();
-            LOC_CHECKOUT2.click();
-            LOC_CHECKOUT3.click();
-            LOC_TERMS.click();
+        LOC_CHECKOUT1.click();
+        LOC_CHECKOUT2.click();
+        LOC_CHECKOUT3.click();
+        LOC_TERMS.click();
         LOC_CHECKOUT4.click();
         LOC_BANK.click();
         LOC_COMFIRM.click();
@@ -53,5 +59,16 @@ public class PageOrder {
         return Assert.isNonEmpty(LOC_FIRST_ORDER);
     }
 
+    public boolean downloadOrderInvoice(WebDriver driver) {
+        try {
+            LOC_ORDER.click();
+            LOC_INVOICE.click();
+            testLogger.info("File downloaded");
+            return true;
+        } catch (Exception e) {
+            testLogger.info("File didn't downloaded");
+            return false;
+        }
 
+    }
 }

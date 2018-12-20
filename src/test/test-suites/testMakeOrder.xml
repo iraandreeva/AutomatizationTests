@@ -10,6 +10,7 @@
                 <methods>
                     <include name="testRegistrationFormFromDataFile"/>
                     <include name="testMakeOrder"/>
+                    <include name="testDownload"/>
                 </methods>
             </class>
         </classes>

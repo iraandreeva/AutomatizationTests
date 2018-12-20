@@ -14,7 +14,7 @@ public class PagesShop {
     private WebElement LOC_WOMAN_PAGE;
     @FindBy(className = "left-block")
     private WebElement LOC_ITEM;
-    @FindBy(css = "a.button.ajax_add_to_cart_button.btn.btn-default")
+    @FindBy(css = "a.ajax_add_to_cart_button:first-child")
     private WebElement LOC_SHORT_SLEEVE;
 
     public PagesShop(final WebDriver driver) {
@@ -26,11 +26,7 @@ public class PagesShop {
     public void putToCart(WebDriver driver) {
         testLogger.info("Go to the shop");
             LOC_WOMAN_PAGE.click();
-        Actions actions = new Actions(driver);
-        actions.moveToElement(LOC_ITEM).click();
-        if (LOC_SHORT_SLEEVE.getText().contains("Shorts"))
-            LOC_SHORT_SLEEVE.click();
-
+        LOC_SHORT_SLEEVE.click();
     }
 
 
