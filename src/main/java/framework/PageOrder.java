@@ -10,23 +10,23 @@ import org.openqa.selenium.support.PageFactory;
 
 public class PageOrder {
 
-    @FindBy(xpath = "/html/body/div[1]/div[1]/header/div[3]/div/div/div[4]/div[1]/div[2]/div[4]/a/span")
+    @FindBy(css = "a.btn.btn-default.button.button-medium")
     private WebElement LOC_CHECKOUT1;
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div/div[3]/div/p[2]/a[1]/span")
+    @FindBy(css = "a.button.btn.btn-default.standard-checkout.button-medium")
     private WebElement LOC_CHECKOUT2;
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div/div[3]/div/form/p/button/span")
+    @FindBy(css = "button.button.btn.btn-default.button-medium")
     private WebElement LOC_CHECKOUT3;
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div/div[3]/div/div/form/p/button/span")
+    @FindBy(css = "button.button.btn.btn-default.standard-checkout.button-medium")
     private WebElement LOC_CHECKOUT4;
     @FindBy(xpath = "//*[@id=\"cgv\"]")
     private WebElement LOC_TERMS;
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div/div[3]/div/div/div[3]/div[1]/div/p/a")
+    @FindBy(className = "bankwire")
     private WebElement LOC_BANK;
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div/div[3]/div/form/p/button/span")
+    @FindBy(css = "button.button.btn.btn-default.button-medium")
     private WebElement LOC_COMFIRM;
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div/div[3]/div/p/a")
+    @FindBy(css = "a.button-exclusive.btn.btn-default")
     private WebElement LOC_ORDERS;
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div/div[3]/div/div/table/tbody/tr/td[1]/a")
+    @FindBy(className = "first_item ")
     private WebElement LOC_FIRST_ORDER;
 
     public PageOrder(final WebDriver driver) {
@@ -37,10 +37,11 @@ public class PageOrder {
 
     public void makeOrder() {
         testLogger.info("Make and confirm the order");
-        LOC_CHECKOUT1.click();
-        LOC_CHECKOUT2.click();
-        LOC_CHECKOUT3.click();
-        LOC_TERMS.click();
+        if (LOC_CHECKOUT1.getText().contains("Proceed"))
+            LOC_CHECKOUT1.click();
+            LOC_CHECKOUT2.click();
+            LOC_CHECKOUT3.click();
+            LOC_TERMS.click();
         LOC_CHECKOUT4.click();
         LOC_BANK.click();
         LOC_COMFIRM.click();

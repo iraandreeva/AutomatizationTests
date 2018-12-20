@@ -11,6 +11,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.asserts.SoftAssert;
 
 @Data
 @AllArgsConstructor
@@ -43,6 +44,8 @@ public class PagePersonalInfo {
     private WebElement LOC_NEW_PASS;
     @FindBy(id = "confirmation")
     private WebElement LOC_PASS_CONFIRM;
+
+    SoftAssert softAssert = new SoftAssert();
 
     public WebElement getLOC_RADIO_GENDER() {
         return LOC_RADIO_GENDER;
@@ -83,24 +86,11 @@ public class PagePersonalInfo {
         LOC_BACK_TO_ACC.click();
     }
 
-    public boolean isFirstName(Account account) {
-        return getLOC_FIRST_NAME().getAttribute("value").equals(account.getText());
+    public void isDataEquals(Account account, WebDriver driver) {
+        softAssert.assertTrue(getLOC_FIRST_NAME().getAttribute("value").equals(account.getText()));
+        softAssert.assertTrue(getLOC_LAST_NAME().getAttribute("value").equals(account.getText()));
+        softAssert.assertTrue(getLOC_RADIO_GENDER().getAttribute("id").equals(new PageRegistration(driver).getLOC_RADIO_GENDER().getAttribute("id")));
+        softAssert.assertTrue(getLOC_EMAIL().getAttribute("value").equals(PageLogin.mail));
+        softAssert.assertTrue(getLOC_NEWSLETTER().getAttribute("class").equals("checked"));
     }
-
-    public boolean isLastName(Account account) {
-        return getLOC_LAST_NAME().getAttribute("value").equals(account.getText());
-    }
-
-    public boolean isGender(WebDriver driver) {
-        return getLOC_RADIO_GENDER().getAttribute("id").equals(new PageRegistration(driver).getLOC_RADIO_GENDER().getAttribute("id"));
-    }
-
-    public boolean isEmail(Account account) {
-        return getLOC_EMAIL().getAttribute("value").equals(PageLogin.mail);
-    }
-
-    public boolean isCheckboxNewsletter() {
-        return getLOC_NEWSLETTER().getAttribute("class").equals("checked");
-    }
-
 }

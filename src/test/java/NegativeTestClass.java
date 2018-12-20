@@ -37,8 +37,5 @@ public class NegativeTestClass extends TestBase{
         pageRegistration.fillRegistrationForm(account);
         pageRegistration.submitAccount();
         softAssert.assertFalse(pageRegistration.isCorrectDataEntered());
-
     }
-
-
 }

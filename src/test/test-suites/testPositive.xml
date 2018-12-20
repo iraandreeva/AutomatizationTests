@@ -9,9 +9,9 @@
             <class name="TestClass">
             <methods>
                 <include name="testRegistrationFormFromDataFile"/>
-                <include name="testEquivalenceAccountPersonalData"/>
-                <include name="testEditNewPersonalInfo"/>
-                <include name="testEquivalenceAddressInformation"/>
+                <!--<include name="testEquivalenceAccountPersonalData"/>-->
+                <!--&lt;!&ndash;<include name="testEditNewPersonalInfo"/>&ndash;&gt;-->
+                <!--&lt;!&ndash;<include name="testEquivalenceAddressInformation"/>&ndash;&gt;-->
                 <include name="testEditAddress"/>
             </methods>
             </class>

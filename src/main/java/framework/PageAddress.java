@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.asserts.SoftAssert;
 
 @Data
 @NoArgsConstructor
@@ -33,15 +34,19 @@ public class PageAddress {
     private WebElement LOC_COUNTRY;
     @FindBy(id = "phone_mobile")
     private WebElement LOC_PHONE;
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div/div[3]/div/div/form/p[2]/button/span")
+    @FindBy(css = "i.icon-chevron-right.right")
     private WebElement LOC_SAVE;
     @FindBy(id = "company")
     private WebElement LOC_COMPANY;
+    @FindBy(css = "div.alert.alert-danger")
+    private WebElement LOC_ALERT;
 
     public String text = "New text for test";
     public String phone = "987654321";
     public String postcode = "54321";
     public String state = "31";
+
+    SoftAssert softAssert = new SoftAssert();
 
     public PageAddress(final WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -53,8 +58,7 @@ public class PageAddress {
         LOC_UPDATE.click();
     }
 
-    public void changeAddressDate() {
-
+    public void changeAddressData() {
         testLogger.info("Change address data");
         LOC_ADDRESS.clear();
         LOC_COMPANY.clear();
@@ -69,40 +73,21 @@ public class PageAddress {
         LOC_SAVE.click();
     }
 
-    public boolean isLastName(Account account) {
-        return getLOC_LAST_NAME().getAttribute("value").equals(account.getText());
+    public void checkAddressChanging() {
+        testLogger.info("Check, if changing is ok");
+        softAssert.assertTrue(LOC_UPDATE.isDisplayed());
     }
 
-    public boolean isFirstName(Account account) {
-        return getLOC_FIRST_NAME().getAttribute("value").equals(account.getText());
-    }
-
-    public boolean isCompany(Account account) {
-        return getLOC_COMPANY().getAttribute("value").equals(account.getText());
-    }
-
-    public boolean isAddress(Account account) {
-        return getLOC_ADDRESS().getAttribute("value").equals(account.getText());
-    }
-
-    public boolean isCity(Account account) {
-        return getLOC_CITY().getAttribute("value").equals(account.getText());
-    }
-
-    public boolean isState(Account account) {
-        return getLOC_STATE().getAttribute("value").equals(account.getState());
-    }
-
-    public boolean isPostcode(Account account) {
-        return getLOC_POSTCODE().getAttribute("value").equals(account.getPostcode());
-    }
-
-    public boolean isCountry(Account account) {
-        return getLOC_COUNTRY().getAttribute("value").equals(account.getCountry());
-    }
-
-    public boolean isPhone(Account account) {
-        return getLOC_PHONE().getAttribute("value").equals(account.getPhone());
+    public void isAddressDataEquals(Account account) {
+        softAssert.assertTrue(getLOC_LAST_NAME().getAttribute("value").equals(account.getText()));
+        softAssert.assertTrue(getLOC_FIRST_NAME().getAttribute("value").equals(account.getText()));
+        softAssert.assertTrue(getLOC_COMPANY().getAttribute("value").equals(account.getText()));
+        softAssert.assertTrue(getLOC_ADDRESS().getAttribute("value").equals(account.getText()));
+        softAssert.assertTrue(getLOC_CITY().getAttribute("value").equals(account.getText()));
+        softAssert.assertTrue(getLOC_STATE().getAttribute("value").equals(account.getState()));
+        softAssert.assertTrue(getLOC_POSTCODE().getAttribute("value").equals(account.getPostcode()));
+        softAssert.assertTrue(getLOC_COUNTRY().getAttribute("value").equals(account.getCountry()));
+        softAssert.assertTrue(getLOC_PHONE().getAttribute("value").equals(account.getPhone()));
     }
 
 

@@ -25,7 +25,6 @@ public class TestClass extends TestBase {
         PageAccount pageAccount = new PageAccount(driver);
         PageLogin pageLogin = new PageLogin(driver);
         PageMain pageMain = new PageMain(driver);
-        //ObjectMapper objectMapper = new ObjectMapper();
 
         pageMain.clickSignIn();
 
@@ -36,7 +35,6 @@ public class TestClass extends TestBase {
 
         testLogger.info("Checking if title is the same as in account");
         Assert.assertEquals(driver.getTitle(), EXPECTED_TITLE);
-        //objectMapper.writeValue(new File("src/test/data/account.json"), new LoginData(mail, account.getPassword()));
 
         pageAccount.logout();
         testLogger.info("Test passed");
@@ -55,11 +53,7 @@ public class TestClass extends TestBase {
         pageAccount.clickPersonalInformation();
 
         testLogger.info("Catching equivalence of the account data");
-        softAssert.assertTrue(pagePersonalInfo.isFirstName(account));
-        softAssert.assertTrue(pagePersonalInfo.isLastName(account));
-        softAssert.assertTrue(pagePersonalInfo.isGender(driver));
-        softAssert.assertTrue(pagePersonalInfo.isEmail(account));
-        softAssert.assertTrue(pagePersonalInfo.isCheckboxNewsletter());
+        pagePersonalInfo.isDataEquals(account, driver);
         softAssert.assertAll();
 
         pageAccount.logout();
@@ -83,8 +77,6 @@ public class TestClass extends TestBase {
         pagePersonalInfo.changePass();
         pagePersonalInfo.saveAndBack(account.getPassword());
 
-        pageAccount.clickPersonalInformation();
-
         pageAccount.logout();
         testLogger.info("Test passed");
     }
@@ -103,15 +95,7 @@ public class TestClass extends TestBase {
         pageAddress.clickUpdate();
 
         testLogger.info("Catching equivalence of the address data");
-        softAssert.assertTrue(pageAddress.isFirstName(account));
-        softAssert.assertTrue(pageAddress.isLastName(account));
-        softAssert.assertTrue(pageAddress.isCompany(account));
-        softAssert.assertTrue(pageAddress.isAddress(account));
-        softAssert.assertTrue(pageAddress.isCity(account));
-        softAssert.assertTrue(pageAddress.isState(account));
-        softAssert.assertTrue(pageAddress.isPostcode(account));
-        softAssert.assertTrue(pageAddress.isCountry(account));
-        softAssert.assertTrue(pageAddress.isPhone(account));
+        pageAddress.isAddressDataEquals(account);
         softAssert.assertAll();
 
         pageAccount.logout();
@@ -132,7 +116,9 @@ public class TestClass extends TestBase {
         pageAddress.clickUpdate();
 
         testLogger.info("Entering new address data");
-        pageAddress.changeAddressDate();
+        pageAddress.changeAddressData();
+        pageAddress.checkAddressChanging();
+        softAssert.assertAll();
 
         pageAccount.logout();
         testLogger.info("Test passed");
@@ -150,13 +136,15 @@ public class TestClass extends TestBase {
         pageMain.clickSignIn();
         pageLogin.signIn(PageLogin.mail, account.getPassword());
 
-        pagesShop.putToCart();
+        pagesShop.putToCart(driver);
         pageOrder.makeOrder();
 
         pageAccount.clickAccount();
         pageAccount.clickOrders();
 
         pageOrder.isOrder();
+        softAssert.assertAll();
+
         pageAccount.logout();
         testLogger.info("Test passed");
     }
