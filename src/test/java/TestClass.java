@@ -1,4 +1,5 @@
 import framework.*;
+import io.qameta.allure.Step;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
@@ -19,7 +20,8 @@ public class TestClass extends TestBase {
         return dataSetAccount.getDataAccount();
     }
 
-    @Test(dataProvider = "dataProviderAccount")
+    @Test(dataProvider = "dataProviderAccount", description = "Fill registration form")
+    @Step( "Registration to the portal" )
     public void testRegistrationFormFromDataFile(Account account) {
 
         PageRegistration pageRegistration = new PageRegistration(driver);
@@ -125,7 +127,8 @@ public class TestClass extends TestBase {
         testLogger.info("Test passed");
     }
 
-    @Test(dataProvider = "dataProviderAccount")
+    @Test(dataProvider = "dataProviderAccount", description = "Making new order")
+    @Step( "Making new order from the shop" )
     public void testMakeOrder(Account account) {
 
         PagesShop pagesShop = new PagesShop(driver);
@@ -151,9 +154,9 @@ public class TestClass extends TestBase {
         testLogger.info("Test passed");
     }
 
-    @Test(dataProvider = "dataProviderAccount")
+    @Test(dataProvider = "dataProviderAccount", description = "Download PDF")
+    @Step( "Download the invoice for last order" )
     public void testDownload(Account account) {
-        PagesShop pagesShop = new PagesShop(driver);
         PageOrder pageOrder = new PageOrder(driver);
         PageMain pageMain = new PageMain(driver);
         PageLogin pageLogin = new PageLogin(driver);
@@ -165,7 +168,8 @@ public class TestClass extends TestBase {
         pageAccount.clickAccount();
         pageAccount.clickOrders();
 
-        softAssert.assertTrue(pageOrder.downloadOrderInvoice(driver));
+        softAssert.assertTrue(pageOrder.downloadOrderInvoice());
+        pageOrder.checkOrderInvoice();
         softAssert.assertAll();
 
         pageAccount.logout();

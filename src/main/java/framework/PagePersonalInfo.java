@@ -36,7 +36,7 @@ public class PagePersonalInfo {
     private WebElement LOC_NEWSLETTER;
     @FindBy(id = "old_passwd")
     private WebElement LOC_OLD_PASS;
-    @FindBy(css = "button.btn.btn-default.button.button-medium")
+    @FindBy(css = "#submitAddress button.button-medium")
     private WebElement LOC_SAVE;
     @FindBy(partialLinkText = "Back to your account")
     private WebElement LOC_BACK_TO_ACC;

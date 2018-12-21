@@ -3,7 +3,7 @@
 <suite name="TestSuite">
     <parameter name="dataFileAccount" value="src/test/data/data.json"/>
     <parameter name="dataFileAccountIncorrect" value="src/test/data/dataNegative.json"/>
-    <test name="Page element verification">
+    <test name="Page element verification" verbose="2">
         <classes>
             <class name="PageElementVerification">
                 <methods>
