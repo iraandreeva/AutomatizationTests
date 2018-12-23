@@ -28,18 +28,7 @@ public class PageElementVerification extends TestBase{
         pageMain.clickSignIn();
         pageLogin.enterNewEmail();
 
-        softAssert.assertTrue(pageRegistration.isPresenceFirstName());
-        softAssert.assertTrue(pageRegistration.isPresenceLastName());
-        softAssert.assertTrue(pageRegistration.isPresenceGender());
-        softAssert.assertTrue(pageRegistration.isPresencePassword());
-        softAssert.assertTrue(pageRegistration.isPresenceEmail());
-        softAssert.assertTrue(pageRegistration.isPresenceDateBirth());
-        softAssert.assertTrue(pageRegistration.isPresenceNewsletter());
-        softAssert.assertTrue(pageRegistration.isPresenceAddress());
-        softAssert.assertTrue(pageRegistration.isPresenceCity());
-        softAssert.assertTrue(pageRegistration.isPresenceZip());
-        softAssert.assertTrue(pageRegistration.isPresencePhone());
-        softAssert.assertTrue(pageRegistration.isPresenceState());
+        pageRegistration.pageElementVerification();
         softAssert.assertAll();
     }
 }

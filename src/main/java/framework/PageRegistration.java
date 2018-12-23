@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.asserts.SoftAssert;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,47 +18,27 @@ import java.util.Collection;
 @Data
 public class PageRegistration {
 
-
-    @FindBy(id = "id_gender2")
-    private WebElement LOC_RADIO_GENDER;
     @FindBy(id = "customer_firstname")
     private WebElement LOC_FIRST_NAME;
     @FindBy(id = "customer_lastname")
     private WebElement LOC_LAST_NAME;
     @FindBy(id = "passwd")
     private WebElement LOC_PASSWORD;
-    @FindBy(id = "days")
-    private WebElement LOC_DAYS;
-    @FindBy(id = "months")
-    private WebElement LOC_MONTHS;
-    @FindBy(id = "years")
-    private WebElement LOC_YEARS;
-    @FindBy(id = "company")
-    private WebElement LOC_COMPANY;
-    @FindBy(id = "address1")
-    private WebElement LOC_ADDRESS;
-    @FindBy(id = "city")
-    private WebElement LOC_CITY;
-    @FindBy(id = "id_state")
-    private WebElement LOC_STATE;
-    @FindBy(id = "postcode")
-    private WebElement LOC_POSTCODE;
-    @FindBy(id = "id_country")
-    private WebElement LOC_COUNTRY;
-    @FindBy(id = "phone_mobile")
-    private WebElement LOC_PHONE;
     @FindBy(id = "alias")
     private WebElement LOC_ALIAS;
     @FindBy(id = "submitAccount")
     private WebElement LOC_SUBMIT_ACCOUNT;
-    @FindBy(id = "uniform-newsletter")
-    private WebElement LOC_NEWSLETTER;
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div/div[3]/div/div")
+    @FindBy(css = ".alert.alert-danger")
     private WebElement LOC_ERROR;
     @FindBy(partialLinkText = "firstname")
     private WebElement LOC_ERR_FIRST_NAME;
     @FindBy(xpath = "//*[@id=\"email\"]")
     private WebElement LOC_EMAIl;
+
+
+    PageAddress pageAddress;
+    PagePersonalInfo pagePersonalInfo;
+    SoftAssert softAssert = new SoftAssert();
 
     public static Select select;
 
@@ -68,6 +49,8 @@ public class PageRegistration {
 
     public PageRegistration(final WebDriver driver) {
         PageFactory.initElements(driver, this);
+        pageAddress = new PageAddress(driver);
+        pagePersonalInfo = new PagePersonalInfo(driver);
     }
 
     static final Logger testLogger = LogManager.getLogger(PageRegistration.class);
@@ -75,26 +58,26 @@ public class PageRegistration {
     public void fillRegistrationForm(Account account) {
 
         testLogger.info("Fill registration form");
-        LOC_RADIO_GENDER.click();
+        pagePersonalInfo.LOC_RADIO_GENDER.click();
         LOC_FIRST_NAME.sendKeys(account.text);
         LOC_LAST_NAME.sendKeys(account.text);
         LOC_PASSWORD.sendKeys(account.password);
 
-        selectText(LOC_DAYS, account.day);
-        selectText(LOC_MONTHS, account.month);
-        selectText(LOC_YEARS, account.year);
+        selectText(pagePersonalInfo.LOC_DAYS, account.day);
+        selectText(pagePersonalInfo.LOC_MONTHS, account.month);
+        selectText(pagePersonalInfo.LOC_YEARS, account.year);
 
-        LOC_NEWSLETTER.click();
+        pagePersonalInfo.LOC_NEWSLETTER.click();
 
-        LOC_COMPANY.sendKeys(account.text);
-        LOC_ADDRESS.sendKeys(account.text);
-        LOC_CITY.sendKeys(account.text);
+        pageAddress.LOC_COMPANY.sendKeys(account.text);
+        pageAddress.LOC_ADDRESS.sendKeys(account.text);
+        pageAddress.LOC_CITY.sendKeys(account.text);
 
-        selectText(LOC_STATE, account.state);
-        LOC_POSTCODE.sendKeys(account.postcode);
-        selectText(LOC_COUNTRY, account.country);
+        selectText(pageAddress.LOC_STATE, account.state);
+        pageAddress.LOC_POSTCODE.sendKeys(account.postcode);
+        selectText(pageAddress.LOC_COUNTRY, account.country);
 
-        LOC_PHONE.sendKeys(account.phone);
+        pageAddress.LOC_PHONE.sendKeys(account.phone);
         LOC_ALIAS.sendKeys(account.text);
     }
 
@@ -118,151 +101,18 @@ public class PageRegistration {
         return !hasError;
     }
 
-    public boolean isPresenceFirstName() {
-        try {
-            LOC_FIRST_NAME.click();
-            return true;
-        }
-        catch (Exception e) {
-            testLogger.info("First Name is absent");
-            return false;
-        }
-
-    }
-
-    public boolean isPresenceLastName() {
-        try {
-            LOC_LAST_NAME.click();
-            return true;
-        }
-        catch (Exception e) {
-            testLogger.info("Last Name is absent");
-            return false;
-        }
-    }
-
-    public boolean isPresenceGender() {
-        try {
-            LOC_RADIO_GENDER.click();
-            return true;
-        }
-        catch (Exception e) {
-            testLogger.info("Gender is absent");
-            return false;
-        }
-    }
-
-    public boolean isPresenceEmail() {
-        try {
-            LOC_EMAIl.click();
-            return true;
-        }
-        catch (Exception e) {
-            testLogger.info("Email is absent");
-            return false;
-        }
-
-    }
-
-    public boolean isPresencePassword() {
-        try {
-            LOC_PASSWORD.click();
-            return true;
-        }
-        catch (Exception e) {
-            testLogger.info("Password is absent");
-            return false;
-        }
-    }
-
-    public boolean isPresenceDateBirth() {
-        try {
-            LOC_DAYS.click();
-            LOC_MONTHS.click();
-            LOC_YEARS.click();
-            return true;
-        }
-        catch (Exception e) {
-            testLogger.info("Date of birth is absent");
-            return false;
-        }
-    }
-
-    public boolean isPresenceNewsletter() {
-        try {
-            LOC_NEWSLETTER.click();
-            return true;
-        }
-        catch (Exception e) {
-            testLogger.info("Checkbox newsletter is absent");
-            return false;
-        }
-    }
-
-    public boolean isPresenceAddress() {
-        try {
-            LOC_ADDRESS.click();
-            return true;
-        }
-        catch (Exception e) {
-            testLogger.info("Address is absent");
-            return false;
-        }
-    }
-
-    public boolean isPresenceCity() {
-        try {
-            LOC_CITY.click();
-            return true;
-        }
-        catch (Exception e) {
-            testLogger.info("City is absent");
-            return false;
-        }
-
-    }
-
-    public boolean isPresenceState() {
-        try {
-            LOC_STATE.click();
-            return true;
-        }
-        catch (Exception e) {
-            testLogger.info("State is absent");
-            return false;
-        }
-    }
-
-    public boolean isPresenceZip() {
-        try {
-            LOC_POSTCODE.click();
-            return true;
-        }
-        catch (Exception e) {
-            testLogger.info("Postcode is absent");
-            return false;
-        }
-    }
-
-    public boolean isPresenceCountry() {
-        try {
-            LOC_COUNTRY.click();
-            return true;
-        }
-        catch (Exception e) {
-            testLogger.info("Country is absent");
-            return false;
-        }
-    }
-
-    public boolean isPresencePhone() {
-        try {
-            LOC_PHONE.click();
-            return true;
-        }
-        catch (Exception e) {
-            testLogger.info("Phone is absent");
-            return false;
-        }
+    public void pageElementVerification() {
+        testLogger.info("Page element verification");
+            softAssert.assertTrue(LOC_FIRST_NAME.isDisplayed());
+            softAssert.assertTrue(LOC_LAST_NAME.isDisplayed());
+            softAssert.assertTrue(pagePersonalInfo.LOC_RADIO_GENDER.isDisplayed());
+            softAssert.assertTrue(LOC_EMAIl.isDisplayed());
+            softAssert.assertTrue(LOC_PASSWORD.isDisplayed());
+            softAssert.assertTrue(pagePersonalInfo.LOC_NEWSLETTER.isDisplayed());
+            softAssert.assertTrue(pageAddress.LOC_ADDRESS.isDisplayed());
+            softAssert.assertTrue(pageAddress.LOC_CITY.isDisplayed());
+            softAssert.assertTrue(pageAddress.LOC_POSTCODE.isDisplayed());
+            softAssert.assertTrue(pageAddress.LOC_COUNTRY.isDisplayed());
+            softAssert.assertTrue(pageAddress.LOC_PHONE.isDisplayed());
     }
 }

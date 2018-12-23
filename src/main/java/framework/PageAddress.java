@@ -14,42 +14,44 @@ import org.testng.asserts.SoftAssert;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PageAddress {
+public class PageAddress extends PartialPageAddress {
 
     @FindBy(partialLinkText = "Update")
-    private WebElement LOC_UPDATE;
+    protected WebElement LOC_UPDATE;
     @FindBy(id = "firstname")
-    private WebElement LOC_FIRST_NAME;
+    protected WebElement LOC_FIRST_NAME;
     @FindBy(id = "lastname")
-    private WebElement LOC_LAST_NAME;
+    protected WebElement LOC_LAST_NAME;
     @FindBy(id = "address1")
-    private WebElement LOC_ADDRESS;
+    protected WebElement LOC_ADDRESS;
     @FindBy(id = "city")
-    private WebElement LOC_CITY;
+    protected WebElement LOC_CITY;
     @FindBy(id = "id_state")
-    private WebElement LOC_STATE;
+    protected WebElement LOC_STATE;
     @FindBy(id = "postcode")
-    private WebElement LOC_POSTCODE;
+    protected WebElement LOC_POSTCODE;
     @FindBy(id = "id_country")
-    private WebElement LOC_COUNTRY;
+    protected WebElement LOC_COUNTRY;
     @FindBy(id = "phone_mobile")
-    private WebElement LOC_PHONE;
-    @FindBy(css = "i.icon-chevron-right.right")
-    private WebElement LOC_SAVE;
+    protected WebElement LOC_PHONE;
+    @FindBy(css = "button[type='submit']")
+    protected WebElement LOC_SAVE;
     @FindBy(id = "company")
-    private WebElement LOC_COMPANY;
+    protected WebElement LOC_COMPANY;
     @FindBy(css = "div.alert.alert-danger")
-    private WebElement LOC_ALERT;
+    protected WebElement LOC_ALERT;
 
     public String text = "New text for test";
     public String phone = "987654321";
     public String postcode = "54321";
     public String state = "31";
+    private WebDriver driver;
 
     SoftAssert softAssert = new SoftAssert();
 
     public PageAddress(final WebDriver driver) {
         PageFactory.initElements(driver, this);
+        this.driver = driver;
     }
 
     static final Logger testLogger = LogManager.getLogger(PagePersonalInfo.class);
@@ -75,7 +77,7 @@ public class PageAddress {
 
     public void checkAddressChanging() {
         testLogger.info("Check, if changing is ok");
-        softAssert.assertTrue(LOC_UPDATE.isDisplayed());
+        softAssert.assertTrue(driver.getCurrentUrl().endsWith("controller=addresses"));
     }
 
     public void isAddressDataEquals(Account account) {

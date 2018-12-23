@@ -13,11 +13,11 @@ public class PageAccount {
     private WebElement LOC_LOGOUT;
     @FindBy(className = "icon-user")
     private WebElement LOC_PERS_INFO;
-    @FindBy(className = "icon-building")
+    @FindBy(css = ".myaccount-link-list a[title='Addresses']")
     private WebElement LOC_ADDRESSES;
-    @FindBy(xpath = "/html/body/div[1]/div[1]/header/div[2]/div/div/nav/div[1]/a")
+    @FindBy(css = "a[href$='controller=my-account'")
     private WebElement LOC_ACCOUNT;
-    @FindBy(xpath = "/html/body/div[1]/div[2]/div/div[3]/div/div/div[1]/ul/li[1]/a/i")
+    @FindBy(css = ".myaccount-link-list a[title='Orders']")
     private WebElement LOC_ORDERS;
 
     static final Logger testLogger = LogManager.getLogger(PageRegistration.class);

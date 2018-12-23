@@ -37,13 +37,16 @@ public class PageOrder {
     private WebElement LOC_ORDERS;
     @FindBy(className = "first_item ")
     private WebElement LOC_FIRST_ORDER;
-    @FindBy(css = "#order-list tr:first-child a.color-myaccount")
+    @FindBy(css = "#order-list tbody tr:first-child .history_link a")
     private WebElement LOC_ORDER;
     @FindBy(css = ".info-order a")
     private WebElement LOC_INVOICE;
 
+    WebDriver driver;
+
     public PageOrder(final WebDriver driver) {
         PageFactory.initElements(driver, this);
+        this.driver = driver;
     }
     SoftAssert softAssert = new SoftAssert();
 
@@ -70,6 +73,7 @@ public class PageOrder {
         try {
             LOC_ORDER.click();
             LOC_INVOICE.click();
+            driver.manage().timeouts().pageLoadTimeout(3, TimeUnit.SECONDS);
             testLogger.info("File downloaded");
             return true;
         } catch (Exception e) {
@@ -97,14 +101,15 @@ public class PageOrder {
 
     public void checkOrderInvoice() {
         try {
-            PDDocument document = PDDocument.load(getLatestFilefromDir("C:\\Users\\irina.andreeva\\Downloads"));
+            PDDocument document = PDDocument.load(getLatestFilefromDir("C:\\Users\\iraan\\Downloads"));
             PDFTextStripper s = new PDFTextStripper();
             String content = s.getText(document);
 
-            softAssert.assertTrue(content.contains(""));
+            softAssert.assertTrue(content.contains(LOC_ORDER.getText()));
         }
         catch (Exception e) {
             testLogger.info("Cannot parse PDF");
+            softAssert.fail();
         }
 
 
