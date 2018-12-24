@@ -1,16 +1,13 @@
-package framework;
+package framework.pages;
 
+import framework.util.MailRandomizer;
 import lombok.Data;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.util.Assert;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-
-import java.io.File;
 
 @Data
 public class PageLogin {

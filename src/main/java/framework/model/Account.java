@@ -1,10 +1,8 @@
-package framework;
+package framework.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import static framework.PageLogin.mail;
 
 @Data
 @AllArgsConstructor

@@ -1,7 +1,7 @@
+package framework.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import framework.Account;
-import framework.PagePersonalInfo;
+import framework.model.Account;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,12 +1,6 @@
-package framework;
+package framework.util;
 
-import org.codehaus.jackson.map.ObjectMapper;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.Random;
-
-import static framework.PageLogin.mail;
 
 public class MailRandomizer {
 

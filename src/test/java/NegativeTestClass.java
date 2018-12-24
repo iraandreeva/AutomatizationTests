@@ -1,4 +1,7 @@
-import framework.*;
+import framework.pages.PageLogin;
+import framework.pages.PageMain;
+import framework.pages.PageRegistration;
+import framework.model.Account;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.annotations.DataProvider;

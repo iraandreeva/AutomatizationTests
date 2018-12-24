@@ -1,4 +1,5 @@
-import framework.*;
+import framework.pages.*;
+import framework.model.Account;
 import io.qameta.allure.Step;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -6,7 +7,6 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class TestClass extends TestBase {

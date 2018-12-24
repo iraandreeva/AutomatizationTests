@@ -1,5 +1,6 @@
-package framework;
+package framework.pages;
 
+import framework.model.Account;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

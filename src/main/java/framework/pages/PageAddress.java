@@ -1,5 +1,6 @@
-package framework;
+package framework.pages;
 
+import framework.model.Account;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import org.testng.asserts.SoftAssert;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PageAddress extends PartialPageAddress {
+public class PageAddress {
 
     @FindBy(partialLinkText = "Update")
     protected WebElement LOC_UPDATE;
