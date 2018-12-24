@@ -8,6 +8,10 @@
     <artifactId>Practice1</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <aspectj.version>1.9.2</aspectj.version>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -23,18 +27,22 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M3</version>
+                <version>3.0.0-M2</version>
                 <configuration>
                     <suiteXmlFiles>
-                        <file>src/test/test-suites/testMakeOrder.xml</file>
+                        <file>src/test/test-suites/testPageElementVerification.xml</file>
                     </suiteXmlFiles>
 
                     <properties>
                         <property>
                             <name>suitethreadpoolsize</name>
-                            <value>2</value>
+                            <value>1</value>
                         </property>
                     </properties>
+
+                    <argLine>
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                    </argLine>
 
                 </configuration>
             </plugin>
@@ -52,13 +60,15 @@
 
     </build>
 
-    <properties>
-        <aspectj.version>1.7.4</aspectj.version>
-        <allure.version>2.0.1</allure.version>
-    </properties>
-
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>

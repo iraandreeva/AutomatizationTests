@@ -30,6 +30,14 @@ public class TestBase {
         this.driver = driver;
     }
 
+    public WebDriver getDriver() {
+        if( null == driver ) {
+            driver = new ChromeDriver();
+        }
+
+        return driver;
+    }
+
     @BeforeSuite
     public void beforeSuite(ITestContext testContext) {
 

@@ -4,7 +4,7 @@
     <parameter name="dataFileAccount" value="src/test/data/data.json"/>
     <parameter name="dataFileAccountIncorrect" value="src/test/data/dataNegative.json"/>
 
-    <test name="AutoQA">
+    <test name="AutoQA" verbose="2">
         <classes>
             <class name="TestClass">
             <methods>
