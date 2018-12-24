@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="TestSuitePositive">
+    <parameter name="dataFileAccount" value="src/test/data/data.json"/>
+    <parameter name="dataFileAccountIncorrect" value="src/test/data/dataNegative.json"/>
+
+    <test name="AutoQA" verbose="2">
+        <classes>
+            <class name="TestClass">
+            <methods>
+                <include name="testRegistrationFormFromDataFile"/>
+                <include name="testEquivalenceAccountPersonalData"/>
+                <include name="testEditNewPersonalInfo"/>
+                <include name="testEquivalenceAddressInformation"/>
+                <include name="testEditAddress"/>
+            </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
+

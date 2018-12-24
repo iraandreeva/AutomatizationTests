@@ -1,0 +1,15 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="TestSuite">
+    <parameter name="dataFileAccount" value="src/test/data/data.json"/>
+    <parameter name="dataFileAccountIncorrect" value="src/test/data/dataNegative.json"/>
+    <test name="Page element verification" verbose="2">
+        <classes>
+            <class name="PageElementVerification">
+                <methods>
+                    <include name="registrationPageElementVerification"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

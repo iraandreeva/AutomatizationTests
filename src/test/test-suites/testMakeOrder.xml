@@ -1,0 +1,18 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="TestSuiteOrder">
+    <parameter name="dataFileAccount" value="src/test/data/data.json"/>
+    <parameter name="dataFileAccountIncorrect" value="src/test/data/dataNegative.json"/>
+
+    <test name="PlacingAnOrder" verbose="2">
+        <classes>
+            <class name="TestClass">
+                <methods>
+                    <include name="testRegistrationFormFromDataFile"/>
+                    <include name="testMakeOrder"/>
+                    <include name="testDownload"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

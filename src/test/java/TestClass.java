@@ -1,126 +1,178 @@
+import framework.pages.*;
+import framework.model.Account;
+import io.qameta.allure.Step;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
-import org.testng.ITestContext;
-import org.testng.ITestListener;
-import org.testng.ITestResult;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 
-@Listeners(TestClassListener.class)
-public class TestClass {
+import java.util.concurrent.TimeUnit;
 
-    @DataProvider(name = "Numbers")
-    public static Object[][] dataProv() {
-        return new Object[][]
-        {{1 , 4}, {6, 1}, {3, 1}};
+public class TestClass extends TestBase {
+
+    private final Logger testLogger = LogManager.getLogger(TestClass.class);
+    private static final String EXPECTED_TITLE = "My account - My Store";
+    private SoftAssert softAssert = new SoftAssert();
+
+    @DataProvider(name = "dataProviderAccount")
+    private Object[][] dataProviderAccount() {
+        return dataSetAccount.getDataAccount();
     }
 
-    @Test(dataProvider = "Numbers", groups = "Group")
-    public void testEquals(int n1, int n2) {
+    @Test(dataProvider = "dataProviderAccount", description = "Fill registration form")
+    @Step( "Registration to the portal" )
+    public void testRegistrationFormFromDataFile(Account account) {
 
-        Assert.assertEquals(n1, n2);
+        PageRegistration pageRegistration = new PageRegistration(driver);
+        PageAccount pageAccount = new PageAccount(driver);
+        PageLogin pageLogin = new PageLogin(driver);
+        PageMain pageMain = new PageMain(driver);
 
+        pageMain.clickSignIn();
+
+        pageLogin.enterNewEmail();
+
+        pageRegistration.fillRegistrationForm(account);
+        pageRegistration.submitAccount();
+
+        testLogger.info("Checking if title is the same as in account");
+        Assert.assertEquals(driver.getTitle(), EXPECTED_TITLE);
+
+        pageAccount.logout();
+        testLogger.info("Test passed");
     }
 
-    @Test(dependsOnMethods="testEquals", dataProvider = "Numbers", groups = "Group")
-    public void testNotEquals(int n1, int n2) {
+    @Test(dataProvider = "dataProviderAccount")
+    public void testEquivalenceAccountPersonalData(Account account) {
 
-        Assert.assertNotEquals(n1, n2);
+        PagePersonalInfo pagePersonalInfo = new PagePersonalInfo(driver);
+        PageAccount pageAccount = new PageAccount(driver);
+        PageLogin pageLogin = new PageLogin(driver);
+        PageMain pageMain = new PageMain(driver);
 
+        pageMain.clickSignIn();
+        pageLogin.signIn(PageLogin.mail, account.getPassword());
+        pageAccount.clickPersonalInformation();
+
+        testLogger.info("Catching equivalence of the account data");
+        pagePersonalInfo.isDataEquals(account, driver);
+        softAssert.assertAll();
+
+        pageAccount.logout();
+        testLogger.info("Test passed");
     }
 
-    @DataProvider(name = "Boolean")
-    public static Object[][] dataProvider() {
-        return new Object[][]
-                {{true}, {false}};
+    @Test(dataProvider = "dataProviderAccount")
+    public void testEditNewPersonalInfo(Account account) {
+
+        PagePersonalInfo pagePersonalInfo = new PagePersonalInfo(driver);
+        PageAccount pageAccount = new PageAccount(driver);
+        PageMain pageMain = new PageMain(driver);
+        PageLogin pageLogin = new PageLogin(driver);
+
+        pageMain.clickSignIn();
+        pageLogin.signIn(PageLogin.mail, account.getPassword());
+        pageAccount.clickPersonalInformation();
+
+        testLogger.info("Entering new account data");
+        pagePersonalInfo.enterNewPersonalInfo();
+        pagePersonalInfo.changePass();
+        pagePersonalInfo.saveAndBack(account.getPassword());
+
+        pageAccount.logout();
+        testLogger.info("Test passed");
     }
 
-    @Test(dataProvider = "Boolean")
-    public void testTrue(boolean n) {
+    @Test(dataProvider = "dataProviderAccount")
+    public void testEquivalenceAddressInformation(Account account) {
 
-        Assert.assertTrue(n, "True");
+        PageAccount pageAccount = new PageAccount(driver);
+        PageMain pageMain = new PageMain(driver);
+        PageAddress pageAddress = new PageAddress(driver);
+        PageLogin pageLogin = new PageLogin(driver);
 
+        pageMain.clickSignIn();
+        pageLogin.signIn(PageLogin.mail, account.getPassword());
+        pageAccount.clickMyAddresses();
+        pageAddress.clickUpdate();
+
+        testLogger.info("Catching equivalence of the address data");
+        pageAddress.isAddressDataEquals(account);
+        softAssert.assertAll();
+
+        pageAccount.logout();
+        testLogger.info("Test passed");
     }
 
-    @Test(dataProvider = "Boolean")
-    public void testFalse(boolean n) {
+    @Test(dataProvider = "dataProviderAccount")
+    public void testEditAddress(Account account) {
 
-        Assert.assertFalse(n, "False");
+        PageAccount pageAccount = new PageAccount(driver);
+        PageMain pageMain = new PageMain(driver);
+        PageLogin pageLogin = new PageLogin(driver);
+        PageAddress pageAddress = new PageAddress(driver);
 
+        pageMain.clickSignIn();
+        pageLogin.signIn(PageLogin.mail, account.getPassword());
+        pageAccount.clickMyAddresses();
+        pageAddress.clickUpdate();
+
+        testLogger.info("Entering new address data");
+        pageAddress.changeAddressData();
+        pageAddress.checkAddressChanging();
+        softAssert.assertAll();
+
+        pageAccount.logout();
+        testLogger.info("Test passed");
     }
 
-    @Test
-    public void testFail() {
+    @Test(dataProvider = "dataProviderAccount", description = "Making new order")
+    @Step( "Making new order from the shop" )
+    public void testMakeOrder(Account account) {
 
-        Assert.fail("Fail");
+        PagesShop pagesShop = new PagesShop(driver);
+        PageOrder pageOrder = new PageOrder(driver);
+        PageMain pageMain = new PageMain(driver);
+        PageLogin pageLogin = new PageLogin(driver);
+        PageAccount pageAccount = new PageAccount(driver);
 
+        pageMain.clickSignIn();
+        pageLogin.signIn(PageLogin.mail, account.getPassword());
+
+        pagesShop.putToCart(driver);
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        pageOrder.makeOrder();
+
+        pageAccount.clickAccount();
+        pageAccount.clickOrders();
+
+        pageOrder.isOrder();
+        softAssert.assertAll();
+
+        pageAccount.logout();
+        testLogger.info("Test passed");
     }
 
-    @Test
-    @Parameters({ "num1", "num2" })
-    public void testParametrized(int num1, int num2) {
+    @Test(dataProvider = "dataProviderAccount", description = "Download PDF")
+    @Step( "Download the invoice for last order" )
+    public void testDownload(Account account) {
+        PageOrder pageOrder = new PageOrder(driver);
+        PageMain pageMain = new PageMain(driver);
+        PageLogin pageLogin = new PageLogin(driver);
+        PageAccount pageAccount = new PageAccount(driver);
 
-        Assert.assertEquals(num1, num2);
+        pageMain.clickSignIn();
+        pageLogin.signIn(PageLogin.mail, account.getPassword());
 
+        pageAccount.clickAccount();
+        pageAccount.clickOrders();
+
+        softAssert.assertTrue(pageOrder.downloadOrderInvoice());
+        pageOrder.checkOrderInvoice();
+        softAssert.assertAll();
+
+        pageAccount.logout();
+        testLogger.info("Test passed");
     }
-
-    @Test(dataProvider = "Numbers")
-    public void testSoftAssert(int n1, int n2) {
-
-        SoftAssert soft = new SoftAssert();
-        soft.assertEquals(n1, n2);
-
-    }
-
-    @BeforeSuite
-    public void beforeSuite() {
-        System.out.println("Before Suite method");
-    }
-
-    @AfterSuite
-    public void afterSuite() {
-        System.out.println("After Suite method");
-    }
-
-    @BeforeTest
-    public void beforeTest() {
-        System.out.println("Before Test method");
-    }
-
-    @AfterTest
-    public void afterTest() {
-        System.out.println("After Test method");
-    }
-
-    @BeforeClass
-    public void beforeClass() {
-        System.out.println("Before Class method");
-    }
-
-    @AfterClass
-    public void afterClass() {
-        System.out.println("After Class method");
-    }
-
-    @BeforeMethod
-    public void beforeMethod() {
-        System.out.println("Before Method");
-    }
-
-    @AfterMethod
-    public void afterMethod() {
-        System.out.println("After Method");
-    }
-
-    @BeforeGroups
-    public void beforeGroups() {
-        System.out.println("Before Groups method");
-    }
-
-    @AfterGroups
-    public void afterGroups() {
-        System.out.println("After Groups method");
-    }
-
-
-
 }
